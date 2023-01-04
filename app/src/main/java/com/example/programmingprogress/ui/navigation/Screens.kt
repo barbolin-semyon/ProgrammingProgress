@@ -22,3 +22,11 @@ sealed class HistoryScreen(val route: String) {
     object ListHistoryScreen: HistoryScreen("listHistory")
     object DetailHistoryScreen: HistoryScreen("detailHistory")
 }
+
+val BottomNavScreens =
+    listOf(MainScreen.Checkpoints, MainScreen.History, MainScreen.Diagram)
+
+val NotBottomNavScreens = listOf(
+    AuthorizationScreen.SignInScreen.route,
+    AuthorizationScreen.RegistrationScreen.route
+)
