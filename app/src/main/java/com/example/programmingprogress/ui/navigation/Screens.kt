@@ -14,7 +14,7 @@ sealed class AuthorizationScreen(val route: String) {
 
 sealed class MainScreen(val route: String, val icon: Int) {
     object Checkpoints : MainScreen("checkpoint", R.drawable.checkpoint)
-    object Diagram : MainScreen("diagram", R.drawable.diagram)
+    object Rating : MainScreen("rating", R.drawable.rating)
     object History : MainScreen("history", R.drawable.profile)
 }
 
@@ -24,7 +24,7 @@ sealed class HistoryScreen(val route: String) {
 }
 
 val BottomNavScreens =
-    listOf(MainScreen.Checkpoints, MainScreen.History, MainScreen.Diagram)
+    listOf(MainScreen.Checkpoints, MainScreen.History, MainScreen.Rating)
 
 val NotBottomNavScreens = listOf(
     AuthorizationScreen.SignInScreen.route,

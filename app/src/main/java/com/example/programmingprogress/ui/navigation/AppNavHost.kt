@@ -34,7 +34,7 @@ private fun NavGraphBuilder.main(navController: NavHostController) {
     navigation(startDestination = MainScreen.History.route, route = Screen.Main.route) {
         history(navController = navController)
 
-        composable(route = MainScreen.Diagram.route) {
+        composable(route = MainScreen.Rating.route) {
 
         }
 
