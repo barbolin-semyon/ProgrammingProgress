@@ -9,6 +9,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.programmingprogress.ui.theme.Blue
+import com.example.programmingprogress.ui.theme.DarkBlue
+import com.example.programmingprogress.ui.theme.White
 
 @Composable
 fun AppBottomNavigation(navHostController: NavHostController) {
@@ -22,6 +25,8 @@ fun AppBottomNavigation(navHostController: NavHostController) {
                 BottomNavScreens.forEach { currentScreen ->
                     BottomNavigationItem(
                         selected = currentDestination.hierarchy.any { it.route == currentScreen.route },
+                        selectedContentColor = White,
+                        unselectedContentColor = Blue,
                         onClick = {
                             navHostController.navigate(currentRoute) {
                                 popUpTo(navHostController.graph.startDestinationId) {
