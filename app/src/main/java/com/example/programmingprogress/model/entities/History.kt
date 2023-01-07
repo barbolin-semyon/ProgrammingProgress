@@ -1,4 +1,4 @@
-package com.example.programmingprogress.model.empties
+package com.example.programmingprogress.model.entities
 
 import java.util.Date
 

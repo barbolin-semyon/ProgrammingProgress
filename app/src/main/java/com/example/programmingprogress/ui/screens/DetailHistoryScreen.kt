@@ -13,7 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.R
-import com.example.programmingprogress.model.empties.History
+import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
