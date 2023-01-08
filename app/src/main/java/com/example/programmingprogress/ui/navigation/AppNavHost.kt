@@ -6,6 +6,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.programmingprogress.model.entities.History
+import com.example.programmingprogress.ui.screens.DetailHistoryScreen
+import com.example.programmingprogress.ui.screens.ListHistoryView
+import java.sql.Timestamp
+import java.util.*
 
 @Composable
 fun AppNavHost(navController: NavHostController, startDestination: String) {
@@ -50,11 +55,19 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
         route = MainScreen.History.route
     ) {
         composable(route = HistoryScreen.DetailHistoryScreen.route) {
-
+            DetailHistoryScreen(
+                navController,
+                History(
+                    check = false,
+                    date = Timestamp( Calendar.getInstance().time.time),
+                    description = "",
+                    hours = 0.0
+                )
+            )
         }
 
         composable(route = HistoryScreen.ListHistoryScreen.route) {
-
+            ListHistoryView(navController)
         }
     }
 }
