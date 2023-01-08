@@ -19,9 +19,6 @@ class HistoryViewModel : ViewModel() {
     private lateinit var listener: ListenerRegistration
 
     fun enableListenerHistory(currentTask: Calendar) {
-
-
-
         val start = Timestamp(currentTask.time.time)
         currentTask.set(Calendar.DAY_OF_YEAR, currentTask.time.date + 7)
         val end = Timestamp(currentTask.time.time)
@@ -31,7 +28,15 @@ class HistoryViewModel : ViewModel() {
         listener =
             historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
-                    tempList[it.date.date % 7] = it
+                    tempList[it.date.date % 7 - 1] = it
+                }
+
+                tempList.forEachIndexed { index, history ->
+                    if (history == null) {
+                        val tempDateNow = Calendar.getInstance()
+                        tempDateNow.set(Calendar.DAY_OF_YEAR, tempDateNow.time.date + index)
+                        tempList[index] = History(date = tempDateNow.time)
+                    }
                 }
 
                 _history.value = tempList.toList()
