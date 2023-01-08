@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -39,7 +40,7 @@ fun BackgroundCard(
 
 @Composable
 fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
-    val format = SimpleDateFormat("dd MM yyyy")
+    val format = SimpleDateFormat("dd MMMM yyyy", Locale("RU", "ru"))
 
     Card(
         modifier = Modifier
@@ -51,7 +52,8 @@ fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
         Row {
             Text(
                 text = format.format(history.date),
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
+                style = MaterialTheme.typography.body1
             )
             Spacer(
                 modifier = Modifier
