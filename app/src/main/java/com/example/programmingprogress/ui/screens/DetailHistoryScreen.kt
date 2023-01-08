@@ -26,7 +26,7 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History) 
     CustomToolbarForHistory(title = "Детали", navHostController = navHostController)
 
     BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
-        if (history.isCheck.not()) {
+        if (history.check.not()) {
             NoProgrammingScreen(navHostController)
         } else {
 
