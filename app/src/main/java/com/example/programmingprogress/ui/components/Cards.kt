@@ -2,6 +2,7 @@ package com.example.programmingprogress.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -10,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.programmingprogress.model.entities.History
@@ -19,18 +21,37 @@ import com.example.programmingprogress.ui.theme.Red
 import java.text.SimpleDateFormat
 import java.util.*
 
+enum class ClickType {
+    LEFT_CLICK,
+    RIGHT_CLICK
+}
+
 @Composable
 fun BackgroundCard(
     topPadding: Dp,
     angleRound: Dp,
     rotation: Float = 0f,
+    onClick: (type: ClickType) -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = topPadding)
-            .graphicsLayer { rotationY = rotation },
+            .graphicsLayer { rotationY = rotation }
+            .pointerInput(Unit) {
+                val maxWidth = this.size.width
+                detectTapGestures(
+                    onPress = { press ->
+                        val isTapOnRight = (press.x > (maxWidth / 4))
+                        if (isTapOnRight) {
+                            onClick(ClickType.RIGHT_CLICK)
+                        } else {
+                            onClick(ClickType.LEFT_CLICK)
+                        }
+                    }
+                )
+            },
         shape = RoundedCornerShape(topEnd = angleRound),
         backgroundColor = Gray
     ) {

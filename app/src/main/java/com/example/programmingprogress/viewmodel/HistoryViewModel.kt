@@ -1,7 +1,5 @@
 package com.example.programmingprogress.viewmodel
 
-import androidx.compose.animation.scaleIn
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.programmingprogress.model.entities.History
@@ -15,32 +13,50 @@ class HistoryViewModel : ViewModel() {
     val history: MutableLiveData<List<History?>>
         get() = _history
 
+    private val currentDate by lazy { Calendar.getInstance() }
+
     private val historyDataSource = HistoryDataSource
     private lateinit var listener: ListenerRegistration
 
-    fun enableListenerHistory(currentTask: Calendar) {
-        val start = Timestamp(currentTask.time.time)
-        currentTask.set(Calendar.DAY_OF_YEAR, currentTask.time.date + 7)
-        val end = Timestamp(currentTask.time.time)
+    fun increaseCurrentDate() {
+        disableListener()
+        currentDate.add(Calendar.DAY_OF_YEAR, 7)
+        enableListenerHistory()
+    }
+
+    fun decreaseCurrentDate() {
+        disableListener()
+        currentDate.add(Calendar.DAY_OF_YEAR, - 7)
+        enableListenerHistory()
+    }
+
+    fun enableListenerHistory() {
+        val tempDate = currentDate.clone() as Calendar
+        val start = Timestamp(tempDate.time.time)
+        tempDate.add(Calendar.DAY_OF_YEAR, 7)
+        val end = Timestamp(tempDate.time.time)
 
         val tempList = MutableList<History?>(7) { null }
 
         listener =
             historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
-                    tempList[it.date.date % 7 - 1] = it
+                    tempList[it.date.date % 7] = it
                 }
-
-                tempList.forEachIndexed { index, history ->
-                    if (history == null) {
-                        val tempDateNow = Calendar.getInstance()
-                        tempDateNow.set(Calendar.DAY_OF_YEAR, tempDateNow.time.date + index)
-                        tempList[index] = History(date = tempDateNow.time)
-                    }
-                }
-
-                _history.value = tempList.toList()
+                fillTempList(tempList = tempList)
             }
+    }
+
+    fun fillTempList(tempList: MutableList<History?>) {
+        tempList.forEachIndexed { index, history ->
+            if (history == null) {
+                val tempDateNow = currentDate.clone() as Calendar
+                tempDateNow.add(Calendar.DAY_OF_YEAR, index)
+                tempList[index] = History(date = tempDateNow.time)
+            }
+        }
+
+            _history.value = tempList.toList()
     }
 
     fun disableListener() {
