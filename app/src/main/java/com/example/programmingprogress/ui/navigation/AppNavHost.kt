@@ -59,7 +59,7 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
                 navController,
                 History(
                     check = false,
-                    date = Timestamp( Calendar.getInstance().time.time),
+                    date = Date(),
                     description = "",
                     hours = 0.0
                 )

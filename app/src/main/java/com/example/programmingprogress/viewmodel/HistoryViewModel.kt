@@ -9,8 +9,8 @@ import java.sql.Timestamp
 import java.util.*
 
 class HistoryViewModel : ViewModel() {
-    private val _history by lazy { MutableLiveData<List<History?>>() }
-    val history: MutableLiveData<List<History?>>
+    private val _history by lazy { MutableLiveData<List<History>>() }
+    val history: MutableLiveData<List<History>>
         get() = _history
 
     private val currentDate by lazy { Calendar.getInstance() }
@@ -26,37 +26,32 @@ class HistoryViewModel : ViewModel() {
 
     fun decreaseCurrentDate() {
         disableListener()
-        currentDate.add(Calendar.DAY_OF_YEAR, - 7)
+        currentDate.add(Calendar.DAY_OF_YEAR, -7)
         enableListenerHistory()
     }
 
     fun enableListenerHistory() {
         val tempDate = currentDate.clone() as Calendar
         val start = Timestamp(tempDate.time.time)
-        tempDate.add(Calendar.DAY_OF_YEAR, 7)
-        val end = Timestamp(tempDate.time.time)
 
-        val tempList = MutableList<History?>(7) { null }
+        val tempList = mutableListOf<History>()
+        repeat(7) {
+            tempDate.add(Calendar.DAY_OF_YEAR, 1)
+            tempList.add(History(date = tempDate.time))
+        }
+
+        val end = Timestamp(tempDate.time.time)
 
         listener =
             historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
-                    tempList[it.date.date % 7] = it
+                    val razn = (tempDate.get((Calendar.DAY_OF_YEAR))) - it.getDate().get(Calendar.DAY_OF_YEAR)
+                    tempList[6 - razn] = it
                 }
-                fillTempList(tempList = tempList)
+                _history.value = tempList
             }
-    }
 
-    fun fillTempList(tempList: MutableList<History?>) {
-        tempList.forEachIndexed { index, history ->
-            if (history == null) {
-                val tempDateNow = currentDate.clone() as Calendar
-                tempDateNow.add(Calendar.DAY_OF_YEAR, index)
-                tempList[index] = History(date = tempDateNow.time)
-            }
-        }
 
-            _history.value = tempList.toList()
     }
 
     fun disableListener() {
