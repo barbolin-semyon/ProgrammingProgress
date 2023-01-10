@@ -46,6 +46,8 @@ class HistoryViewModel : ViewModel() {
             historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
                     val razn = (tempDate.get((Calendar.DAY_OF_YEAR))) - it.getDate().get(Calendar.DAY_OF_YEAR)
+                    tempDate.get((Calendar.DAY_OF_YEAR))
+                    it.getDate().get(Calendar.DAY_OF_YEAR)
                     tempList[6 - razn] = it
                 }
                 _history.value = tempList

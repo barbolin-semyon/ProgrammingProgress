@@ -15,6 +15,7 @@ import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CardForHistory
 import com.example.programmingprogress.ui.components.ClickType
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
+import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.viewmodel.HistoryViewModel
 
 @Composable
@@ -67,7 +68,14 @@ private fun Content(
     LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         items(histories) {
             CardForHistory(history = it!!, rotation = rotation) {
-
+                navHostController.currentBackStackEntry?.savedStateHandle?.set("history", it)
+                navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
+                    popUpTo(navHostController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         }
 

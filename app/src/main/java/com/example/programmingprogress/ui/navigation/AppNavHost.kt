@@ -55,19 +55,20 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
         route = MainScreen.History.route
     ) {
         composable(route = HistoryScreen.DetailHistoryScreen.route) {
-            DetailHistoryScreen(
-                navController,
-                History(
-                    check = false,
-                    date = Date(),
-                    description = "",
-                    hours = 0.0
-                )
-            )
-        }
+            var history =
+                navController.previousBackStackEntry?.savedStateHandle?.get<History>("history")
+                    ?: History(
+                        check = false,
+                        date = Calendar.getInstance().time,
+                        description = "",
+                        hours = 0.0
+                    )
 
-        composable(route = HistoryScreen.ListHistoryScreen.route) {
-            ListHistoryView(navController)
+            DetailHistoryScreen(navController, history)
         }
+    }
+
+    composable(route = HistoryScreen.ListHistoryScreen.route) {
+        ListHistoryView(navController)
     }
 }
