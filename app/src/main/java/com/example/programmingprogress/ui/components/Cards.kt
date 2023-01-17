@@ -1,5 +1,6 @@
 package com.example.programmingprogress.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -31,7 +32,7 @@ fun BackgroundCard(
     topPadding: Dp,
     angleRound: Dp,
     rotation: Float = 0f,
-    onClick: (type: ClickType) -> Unit = {},
+    onClick: (isTapOnRight: Boolean) -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Card(
@@ -43,12 +44,8 @@ fun BackgroundCard(
                 val maxWidth = this.size.width
                 detectTapGestures(
                     onPress = { press ->
-                        val isTapOnRight = (press.x > (maxWidth / 4))
-                        if (isTapOnRight) {
-                            onClick(ClickType.RIGHT_CLICK)
-                        } else {
-                            onClick(ClickType.LEFT_CLICK)
-                        }
+                        val isTapOnRight = ((press.x > (maxWidth / 4)))
+                        onClick(isTapOnRight)
                     }
                 )
             },

@@ -1,5 +1,6 @@
 package com.example.programmingprogress.ui.screens
 
+import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,11 +27,11 @@ fun ListHistoryView(navHostController: NavHostController) {
         viewModel.enableListenerHistory()
     })
 
-    var animated by remember { mutableStateOf(false) }
-    val rotation = remember { Animatable(initialValue = 360f) }
+    var animated by remember { mutableStateOf(true) }
+    val rotation = remember { Animatable(initialValue = 180f) }
     LaunchedEffect(key1 = animated, block = {
         rotation.animateTo(
-            targetValue = if (animated) 0f else 360f,
+            targetValue = if (animated) 0f else 180f,
             animationSpec = tween(durationMillis = 1000)
         )
     })
@@ -39,11 +40,15 @@ fun ListHistoryView(navHostController: NavHostController) {
     BackgroundCard(
         topPadding = 90.dp,
         angleRound = 90.dp,
-        onClick = { type ->
+        onClick = { isTapRightCard ->
             animated = animated.not()
+
+            val type = if (isTapRightCard.not().xor(animated)
+            ) ClickType.LEFT_CLICK else ClickType.RIGHT_CLICK
+
             clickBackground(type, viewModel)
         },
-        rotation = rotation.value
+        rotation = rotation.value,
     ) {
         history.value?.let {
             Content(history.value!!, rotation.value, navHostController)
