@@ -30,13 +30,13 @@ import java.util.*
 
 
 @OptIn(ExperimentalFoundationApi::class)
-@Preview
 @Composable
 fun CalendarView(
-    calendarTheme: CalendarTheme = CalendarTheme()
+    calendarTheme: CalendarTheme = CalendarTheme(),
+    selectedDate: Calendar?,
+    changeSelectedDate: (calendar: Calendar) -> Unit
 ) {
     var currentDate = remember { mutableStateOf(Calendar.getInstance()) }
-    var selectedDate by remember { mutableStateOf<Calendar?>(null) }
     var days by remember { mutableStateOf(mutableListOf<Calendar>()) }
     val weeks = listOf("Пон", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
 
@@ -70,7 +70,7 @@ fun CalendarView(
                     isSelected = isSelected,
                     calendarItemTheme = calendarTheme.calendarItemTheme
                 ) {
-                    selectedDate = day
+                    changeSelectedDate(day)
                 }
             }
         })

@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Calendar
 
 private val DarkColorPalette = darkColors(
     primary = DarkBlue,
@@ -54,7 +55,12 @@ fun ProgrammingProgressTheme(
         content = content
     )
 }
-
+data class CalendarAlertDialogTheme (
+    val backgroundColor: Color = Alpha,
+    val colorButton: Color = Orange,
+    val width: Dp = 100.dp,
+    val calendarTheme: CalendarTheme = CalendarTheme(),
+)
 data class CalendarTheme(
     val calendarItemTheme: CalendarItemTheme = CalendarItemTheme(),
     val calendarHeaderTheme: CalendarHeaderTheme = CalendarHeaderTheme(),
