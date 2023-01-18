@@ -45,7 +45,9 @@ import java.util.*
 fun CalendarView(
     calendarTheme: CalendarTheme = CalendarTheme()
 ) {
-    var currentDate by remember { mutableStateOf(Calendar.getInstance()) }
+    var currentDate by remember { mutableStateOf(Calendar.getInstance().apply {
+        set(Calendar.MONTH, 10)
+    })  }
     var selectedDate by remember { mutableStateOf<Calendar?>(null) }
     var days by remember { mutableStateOf(mutableListOf<Calendar>()) }
     val weeks = listOf("Пон", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
@@ -145,7 +147,8 @@ private fun getDays(currentDate: Calendar): MutableList<Calendar> {
     tempDate.add(Calendar.DATE, 1 - countDayBeforeCurrentMonth)
 
     val tempDays = mutableListOf<Calendar>()
-    while (tempDate.getMonth() <= currentDate.getMonth() || tempDate.getYear() < currentDate.getYear()) {
+    val countDayInMonth = currentDate.getActualMaximum(Calendar.DAY_OF_MONTH) + countDayBeforeCurrentMonth - 1
+    repeat(countDayInMonth) {
         tempDays.add(tempDate.clone() as Calendar)
         tempDate.add(Calendar.DATE, 1)
     }
