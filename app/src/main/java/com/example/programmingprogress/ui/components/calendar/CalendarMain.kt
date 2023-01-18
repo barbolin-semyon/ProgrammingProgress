@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.programmingprogress.R
+import com.example.programmingprogress.ui.components.calendar.CalendarHeader
+import com.example.programmingprogress.ui.components.calendar.CalendarItem
 import com.example.programmingprogress.ui.theme.*
 import com.example.programmingprogress.util.getDate
 import com.example.programmingprogress.util.getDayOfWeek
@@ -74,99 +76,6 @@ fun CalendarView(
         })
     }
 }
-
-@Composable
-private fun CalendarHeader(
-    currentDate: MutableState<Calendar>,
-    theme: CalendarHeaderTheme
-) {
-    val header = SimpleDateFormat("LLLL, yyyy", Locale("ru")).format(currentDate.value.time)
-
-    theme.apply {
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            ButtonForChangeCurrentMonth(
-                currentDate = currentDate,
-                iconId = R.drawable.baseline_arrow_left,
-                color = headerTextColor,
-                index = -1
-            )
-
-            Text(
-                text = header.uppercase(),
-                style = headerTextStyle,
-                fontSize = headerTextSize,
-                fontWeight = headerTextWeight,
-                color = headerTextColor,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-
-            ButtonForChangeCurrentMonth(
-                currentDate = currentDate,
-                iconId = R.drawable.baseline_arrow_right,
-                color = headerTextColor,
-                index = 1
-            )
-        }
-    }
-}
-
-@Composable
-private fun ButtonForChangeCurrentMonth(
-    currentDate: MutableState<Calendar>,
-    iconId: Int,
-    color: Color,
-    index: Int
-) {
-    Icon(
-        painter = painterResource(id = iconId),
-        contentDescription = "change month",
-        tint = color,
-        modifier = Modifier
-            .size(70.dp)
-            .clickable {
-                val tempDate = currentDate.value.clone() as Calendar
-                tempDate.add(Calendar.MONTH, index)
-                currentDate.value = tempDate
-            }
-    )
-}
-
-@Composable
-private fun CalendarItem(
-    day: String,
-    isSelected: Boolean,
-    calendarItemTheme: CalendarItemTheme,
-    onClick: () -> Unit
-) {
-    calendarItemTheme.apply {
-        val backgroundColor = if (isSelected) selectedDayBackgroundColor else dayBackgroundColor
-        val textColor = if (isSelected) selectedDayValueTextColor else dayValueTextColor
-
-        Column(
-            modifier = Modifier
-                .clip(dayShape)
-                .background(backgroundColor)
-                .clickable { onClick() },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = day,
-                style = textStyle,
-                fontSize = textSize,
-                color = textColor,
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-        }
-    }
-
-}
-
 private fun getDays(currentDate: Calendar): MutableList<Calendar> {
 
     val tempDate = currentDate.clone() as Calendar
