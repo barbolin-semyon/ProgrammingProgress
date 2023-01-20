@@ -88,13 +88,7 @@ private fun Content(
         items(histories) {
             CardForHistory(history = it!!, rotation = rotation) {
                 navHostController.currentBackStackEntry?.savedStateHandle?.set("history", it)
-                navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
-                    popUpTo(navHostController.graph.startDestinationId) {
-                        saveState = true
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
+                navHostController.navigate(HistoryScreen.DetailHistoryScreen.route)
             }
         }
 
