@@ -10,6 +10,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
@@ -24,6 +25,7 @@ import com.example.programmingprogress.viewmodel.HistoryViewModel
 fun ListHistoryView(navHostController: NavHostController) {
     val viewModel: HistoryViewModel = viewModel()
     val history = viewModel.history.observeAsState()
+
     LaunchedEffect(key1 = history, block = {
         viewModel.enableListenerHistory()
     })

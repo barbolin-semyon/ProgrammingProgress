@@ -4,13 +4,11 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.programmingprogress.ui.theme.Blue
-import com.example.programmingprogress.ui.theme.DarkBlue
+import com.example.programmingprogress.ui.theme.LightRed
 import com.example.programmingprogress.ui.theme.White
 
 @Composable
@@ -23,17 +21,23 @@ fun AppBottomNavigation(navHostController: NavHostController) {
         if (NotBottomNavScreens.contains(currentRoute).not()) {
             BottomNavigation {
                 BottomNavScreens.forEach { currentScreen ->
+
+                    val select = currentDestination.hierarchy.any {
+                        val route = it.route
+                        route == currentScreen.route
+                    }
+
                     BottomNavigationItem(
-                        selected = currentDestination.hierarchy.any { it.route == currentScreen.route },
+                        selected = select,
                         selectedContentColor = White,
-                        unselectedContentColor = Blue,
+                        unselectedContentColor = LightRed,
                         onClick = {
                             navHostController.navigate(currentRoute) {
-                                popUpTo(navHostController.graph.startDestinationId) {
+                                popUpTo(currentRoute) {
                                     saveState = true
+                                    inclusive = true
                                 }
                                 launchSingleTop = true
-                                restoreState = true
                             }
                         },
                         icon = {

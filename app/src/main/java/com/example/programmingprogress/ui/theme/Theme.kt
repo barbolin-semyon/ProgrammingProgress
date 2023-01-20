@@ -16,15 +16,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 private val DarkColorPalette = darkColors(
-    primary = DarkBlue,
-    primaryVariant = Blue,
-    secondary = DarkMagenta
+    primary = DarkRed,
+    primaryVariant = LightRed,
+    secondary = Green
 )
 
 private val LightColorPalette = lightColors(
-    primary = DarkBlue,
-    primaryVariant = Blue,
-    secondary = DarkMagenta
+    primary = DarkRed,
+    primaryVariant = LightRed,
+    secondary = Green
 
     /* Other default colors to override
     background = Color.White,
@@ -56,7 +56,7 @@ fun ProgrammingProgressTheme(
 }
 data class CalendarAlertDialogTheme (
     val backgroundColor: Color = Alpha,
-    val colorButton: Color = DarkMagenta,
+    val colorButton: Color = Green,
     val width: Dp = 100.dp,
     val calendarTheme: CalendarTheme = CalendarTheme(),
 )
@@ -80,7 +80,7 @@ data class CalendarItemTheme(
     val dayShape: RoundedCornerShape = CircleShape,
     val dayBackgroundColor: Color = White,
     val elevationDay: Dp = 5.dp,
-    val selectedDayBackgroundColor: Color = DarkMagenta,
+    val selectedDayBackgroundColor: Color = Green,
     val dayValueTextColor: Color = Color.Black,
     val selectedDayValueTextColor: Color = White,
 )

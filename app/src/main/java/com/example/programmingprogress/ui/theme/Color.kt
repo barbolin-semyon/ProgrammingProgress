@@ -2,11 +2,11 @@ package com.example.programmingprogress.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val DarkMagenta = Color(0xFF5466BB)
+val Green = Color(0xFF78AEAE)
 val White = Color(0xFFFFFFFF)
 val Gray = Color(0xFFFFFDFD)
 val DarkGray = Color(0xFF494949)
-val Red = Color(0xFFFF7373)
-val Blue = Color(0xFF007EA7)
-val DarkBlue = Color(0xFF00526D)
+val Red = Color(0xFFC95151)
+val LightRed = Color(0xFFF1C4BE)
+val DarkRed = Color(0xFFA96461 )
 val Alpha = Color(0xFFFFFF)

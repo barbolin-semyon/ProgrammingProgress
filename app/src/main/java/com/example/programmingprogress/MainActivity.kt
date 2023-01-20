@@ -12,7 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.programmingprogress.ui.navigation.AppBottomNavigation
 import com.example.programmingprogress.ui.navigation.AppNavHost
 import com.example.programmingprogress.ui.navigation.Screen
-import com.example.programmingprogress.ui.theme.DarkMagenta
+import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.ProgrammingProgressTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             ProgrammingProgressTheme {
 
                 val UIController = rememberSystemUiController()
-                UIController.setStatusBarColor(DarkMagenta)
+                UIController.setStatusBarColor(Green)
 
                 val navController = rememberNavController()
                 val startDestination = Screen.Main.route
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                         navHostController = navController,
                     )
                 }) {
-                    Box(modifier = Modifier.padding(it).background(DarkMagenta)) {
+                    Box(modifier = Modifier.padding(it).background(Green)) {
                         AppNavHost(
                             navController = navController,
                             startDestination = startDestination

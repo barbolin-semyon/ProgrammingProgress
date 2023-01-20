@@ -1,6 +1,5 @@
 package com.example.programmingprogress.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -16,8 +15,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.programmingprogress.model.entities.History
-import com.example.programmingprogress.ui.theme.Blue
+import com.example.programmingprogress.ui.theme.LightRed
 import com.example.programmingprogress.ui.theme.Gray
+import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,7 +76,7 @@ fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
             Spacer(
                 modifier = Modifier
                     .size(16.dp)
-                    .background(if (history.check) Blue else Red)
+                    .background(if (history.check) Green else Red)
             )
         }
     }

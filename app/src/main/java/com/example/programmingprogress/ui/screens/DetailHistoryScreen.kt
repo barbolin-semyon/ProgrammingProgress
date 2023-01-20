@@ -3,6 +3,7 @@ package com.example.programmingprogress.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -18,14 +19,16 @@ import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
 import com.example.programmingprogress.ui.navigation.HistoryScreen
-import com.example.programmingprogress.ui.theme.Blue
 import com.example.programmingprogress.ui.theme.DarkGray
+import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
 
 @Composable
 fun DetailHistoryScreen(navHostController: NavHostController, history: History) {
     CustomToolbarForHistory(title = "Детали") {
-        navHostController.navigate(HistoryScreen.ListHistoryScreen.route)
+        navHostController.navigate(HistoryScreen.ListHistoryScreen.route) {
+
+        }
     }
 
     BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
@@ -53,11 +56,11 @@ fun NoProgrammingScreen(navHostController: NavHostController) {
         Image(
             painter = painterResource(id = R.drawable.panda),
             contentDescription = "panda",
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.fillMaxWidth()
         )
 
         Column {
-            CustomButtonFillSize(text = "Исправить", color = Blue) {
+            CustomButtonFillSize(text = "Исправить", color = Green) {
 
             }
 
