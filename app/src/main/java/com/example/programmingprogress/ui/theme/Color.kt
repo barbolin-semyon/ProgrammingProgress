@@ -2,7 +2,7 @@ package com.example.programmingprogress.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Orange = Color(0xFFFFBB73)
+val DarkMagenta = Color(0xFF5466BB)
 val White = Color(0xFFFFFFFF)
 val Gray = Color(0xFFFFFDFD)
 val DarkGray = Color(0xFF494949)
