@@ -1,15 +1,19 @@
 package com.example.programmingprogress.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TextWithCaption(caption: String, text: String, modifier: Modifier = Modifier) {
-    Row(modifier = modifier) {
+    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
         Text(text = caption, style = MaterialTheme.typography.h5)
-        Text(text = text, style = MaterialTheme.typography.body1)
+        Text(text = text, style = MaterialTheme.typography.body1, modifier = Modifier.padding(start = 8.dp))
     }
 }
