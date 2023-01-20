@@ -41,8 +41,8 @@ class HistoryViewModel : ViewModel() {
 
         val tempList = mutableListOf<History>()
         repeat(7) {
-            tempDate.add(Calendar.DAY_OF_YEAR, 1)
             tempList.add(History(date = tempDate.time))
+            tempDate.add(Calendar.DAY_OF_YEAR, 1)
         }
 
         val end = Timestamp(tempDate.time.time)
@@ -53,7 +53,7 @@ class HistoryViewModel : ViewModel() {
                     val razn = (tempDate.get((Calendar.DAY_OF_YEAR))) - it.getDate().get(Calendar.DAY_OF_YEAR)
                     tempDate.get((Calendar.DAY_OF_YEAR))
                     it.getDate().get(Calendar.DAY_OF_YEAR)
-                    tempList[6 - razn] = it
+                    tempList[7 - razn] = it
                 }
                 _history.value = tempList
             }
