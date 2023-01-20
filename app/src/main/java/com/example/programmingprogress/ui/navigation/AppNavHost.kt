@@ -66,9 +66,9 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
 
             DetailHistoryScreen(navController, history)
         }
-    }
 
-    composable(route = HistoryScreen.ListHistoryScreen.route) {
-        ListHistoryView(navController)
+        composable(route = HistoryScreen.ListHistoryScreen.route) {
+            ListHistoryView(navController)
+        }
     }
 }
