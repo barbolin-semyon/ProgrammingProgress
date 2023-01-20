@@ -38,7 +38,7 @@ fun CalendarView(
 ) {
     var currentDate = remember { mutableStateOf(Calendar.getInstance()) }
     var days by remember { mutableStateOf(mutableListOf<Calendar>()) }
-    val weeks = listOf("Пон", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
+    val weeks = listOf("Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
