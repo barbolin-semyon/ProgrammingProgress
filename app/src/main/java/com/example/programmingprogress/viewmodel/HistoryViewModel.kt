@@ -13,7 +13,7 @@ class HistoryViewModel : ViewModel() {
     val history: MutableLiveData<List<History>>
         get() = _history
 
-    private val currentDate by lazy { Calendar.getInstance() }
+    private var currentDate = Calendar.getInstance()
 
     private val historyDataSource = HistoryDataSource
     private lateinit var listener: ListenerRegistration
@@ -27,6 +27,11 @@ class HistoryViewModel : ViewModel() {
     fun decreaseCurrentDate() {
         disableListener()
         currentDate.add(Calendar.DAY_OF_YEAR, -7)
+        enableListenerHistory()
+    }
+
+    fun setCurrentDate(date: Calendar) {
+        currentDate = date
         enableListenerHistory()
     }
 

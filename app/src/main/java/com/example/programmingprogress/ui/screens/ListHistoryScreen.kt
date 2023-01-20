@@ -16,6 +16,7 @@ import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CardForHistory
 import com.example.programmingprogress.ui.components.ClickType
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
+import com.example.programmingprogress.ui.components.calendar.CalendarAlertDialog
 import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.viewmodel.HistoryViewModel
 
@@ -36,7 +37,12 @@ fun ListHistoryView(navHostController: NavHostController) {
         )
     })
 
-    CustomToolbarForHistory(title = "Детали", navHostController = navHostController)
+    val isVisibleCalendarAlert = remember { mutableStateOf(false) }
+
+    CustomToolbarForHistory(title = "Детали") {
+        isVisibleCalendarAlert.value = true
+    }
+
     BackgroundCard(
         topPadding = 90.dp,
         angleRound = 90.dp,
@@ -54,6 +60,12 @@ fun ListHistoryView(navHostController: NavHostController) {
             Content(history.value!!, rotation.value, navHostController)
         }
     }
+
+    CalendarAlertDialog(
+        isVisible = isVisibleCalendarAlert.value,
+        hideAlertDialog = { isVisibleCalendarAlert.value = false },
+        changeSelectedDate = { viewModel.setCurrentDate(it) }
+    )
 }
 
 private fun clickBackground(typeClick: ClickType, viewModel: HistoryViewModel) {

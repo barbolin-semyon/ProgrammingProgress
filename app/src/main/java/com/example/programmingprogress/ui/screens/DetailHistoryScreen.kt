@@ -17,13 +17,16 @@ import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
+import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.ui.theme.Blue
 import com.example.programmingprogress.ui.theme.DarkGray
 import com.example.programmingprogress.ui.theme.Red
 
 @Composable
 fun DetailHistoryScreen(navHostController: NavHostController, history: History) {
-    CustomToolbarForHistory(title = "Детали", navHostController = navHostController)
+    CustomToolbarForHistory(title = "Детали") {
+        navHostController.navigate(HistoryScreen.ListHistoryScreen.route)
+    }
 
     BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
         if (history.check.not()) {

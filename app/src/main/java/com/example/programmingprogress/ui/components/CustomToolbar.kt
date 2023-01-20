@@ -17,7 +17,10 @@ import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.ui.theme.White
 
 @Composable
-fun CustomToolbarForHistory(title: String, navHostController: NavHostController) {
+fun CustomToolbarForHistory(
+    title: String,
+    onClick: () -> Unit
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
@@ -27,21 +30,10 @@ fun CustomToolbarForHistory(title: String, navHostController: NavHostController)
         Text(text = title, style = MaterialTheme.typography.h4)
 
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            IconButton(onClick = {
-                navHostController.navigate(HistoryScreen.ListHistoryScreen.route)
-            }) {
+            IconButton(onClick = {onClick()}) {
                 Icon(
                     painter = painterResource(id = R.drawable.calendar),
                     contentDescription = "открыть календарь",
-                    tint = White,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
-
-            IconButton(onClick = { }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.diagram),
-                    contentDescription = "открыть диаграммы",
                     tint = White,
                     modifier = Modifier.size(32.dp)
                 )

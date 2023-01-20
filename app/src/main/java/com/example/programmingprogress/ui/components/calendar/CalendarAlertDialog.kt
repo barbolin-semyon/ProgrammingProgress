@@ -1,8 +1,10 @@
 package com.example.programmingprogress.ui.components.calendar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -15,44 +17,56 @@ import java.util.*
 
 @Composable
 fun CalendarAlertDialog(
-    CalendarAlertDialogTheme: CalendarAlertDialogTheme = CalendarAlertDialogTheme(),
-    selectedDate: Calendar?,
-    changeSelectedDate: (calendar: Calendar?) -> Unit
+    isVisible: Boolean,
+    hideAlertDialog: () -> Unit,
+    calendarAlertDialogTheme: CalendarAlertDialogTheme = CalendarAlertDialogTheme(),
+    changeSelectedDate: (calendar: Calendar) -> Unit
 ) {
-    val isVisible = remember { mutableStateOf(true) }
+    var selectedDate by remember { mutableStateOf<Calendar?>(null) }
 
-    if (isVisible.value) {
+    if (isVisible) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { isVisible.value = false },
+                .background(calendarAlertDialogTheme.backgroundColor)
+                .clickable { hideAlertDialog() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Card {
-                Column(modifier = Modifier.clickable {  }) {
+                Column(modifier = Modifier.clickable { }) {
                     CalendarView(
+                        calendarTheme = calendarAlertDialogTheme.calendarTheme,
                         selectedDate = selectedDate,
-                        changeSelectedDate = { changeSelectedDate(it) })
+                        changeSelectedDate = { selectedDate = it })
 
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
                         horizontalArrangement = Arrangement.End
                     ) {
                         Button(
                             modifier = Modifier.width(100.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = calendarAlertDialogTheme.colorButton
+                            ),
                             enabled = selectedDate != null,
-                            onClick = { isVisible.value = false }
+                            onClick = {
+                                changeSelectedDate(selectedDate!!)
+                                hideAlertDialog()
+                            }
                         ) {
                             Text(text = "Ок")
                         }
 
                         Button(
-                            modifier = Modifier.padding(horizontal = 8.dp).width(100.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .width(100.dp),
                             onClick = {
-                            changeSelectedDate(null)
-                            isVisible.value = false
-                        }) {
+                                hideAlertDialog()
+                            }) {
                             Text(text = "Отмена")
                         }
                     }
