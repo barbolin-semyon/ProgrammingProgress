@@ -64,7 +64,7 @@ private fun Content(history: History) {
         }
 
 
-        Card(elevation = 4.dp, shape = RoundedCornerShape(32.dp)){
+        Card(elevation = 4.dp, shape = RoundedCornerShape(32.dp)) {
             Icon(
                 painter = painterResource(id = R.drawable.checkpoint),
                 contentDescription = "is program",
@@ -75,10 +75,7 @@ private fun Content(history: History) {
             )
         }
 
-        Card(modifier = Modifier.padding(16.dp), elevation = 8.dp) {
-
-            Text(modifier = Modifier.padding(16.dp), text = history.description, fontSize = 18.sp)
-        }
+        DescriptionText(history.description)
     }
 }
 
@@ -102,15 +99,25 @@ fun NoProgrammingScreen(navHostController: NavHostController, history: History) 
             modifier = Modifier.fillMaxWidth()
         )
 
-        Column {
-            CustomButtonFillSize(text = "Исправить", color = Green) {
+        if (history.description.isNotEmpty()) {
+            DescriptionText(history.description)
+        } else {
+            Column {
+                CustomButtonFillSize(text = "Исправить", color = Green) {
 
-            }
+                }
 
-            CustomButtonFillSize(color = Red, text = "Написать причину") {
+                CustomButtonFillSize(color = Red, text = "Написать причину") {
 
+                }
             }
         }
     }
+}
 
+@Composable
+private fun DescriptionText(text: String) {
+    Card(modifier = Modifier.fillMaxWidth().padding(16.dp), elevation = 8.dp) {
+        Text(modifier = Modifier.padding(16.dp), text = text, fontSize = 18.sp)
+    }
 }
