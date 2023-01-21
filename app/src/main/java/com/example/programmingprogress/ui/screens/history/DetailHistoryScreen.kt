@@ -21,6 +21,7 @@ import com.example.programmingprogress.ui.components.CustomButtonFillSize
 import com.example.programmingprogress.ui.components.CustomToolbarForHistory
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.ui.navigation.HistoryScreen
+import com.example.programmingprogress.ui.navigation.Screen
 import com.example.programmingprogress.ui.theme.DarkGray
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
@@ -104,11 +105,18 @@ fun NoProgrammingScreen(navHostController: NavHostController, history: History) 
         } else {
             Column {
                 CustomButtonFillSize(text = "Исправить", color = Green) {
+                    val state = navHostController.currentBackStackEntry?.savedStateHandle
+                    state?.set("isSetHours", true)
+                    state?.set("history", history)
 
+                    navHostController.navigate(HistoryScreen.InputHistoryScreen.route)
                 }
 
                 CustomButtonFillSize(color = Red, text = "Написать причину") {
+                    val state = navHostController.currentBackStackEntry?.savedStateHandle
+                    state?.set("history", history)
 
+                    navHostController.navigate(HistoryScreen.InputHistoryScreen.route)
                 }
             }
         }

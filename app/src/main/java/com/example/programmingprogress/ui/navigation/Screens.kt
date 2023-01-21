@@ -21,6 +21,7 @@ sealed class MainScreen(val route: String, val icon: Int) {
 sealed class HistoryScreen(val route: String) {
     object ListHistoryScreen: HistoryScreen("listHistory")
     object DetailHistoryScreen: HistoryScreen("detailHistory")
+    object InputHistoryScreen: HistoryScreen("inputHistory")
 }
 
 val BottomNavScreens =

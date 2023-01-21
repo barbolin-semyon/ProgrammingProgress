@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.screens.DetailHistoryScreen
 import com.example.programmingprogress.ui.screens.ListHistoryView
+import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
 import java.sql.Timestamp
 import java.util.*
 
@@ -69,6 +70,20 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
 
         composable(route = HistoryScreen.ListHistoryScreen.route) {
             ListHistoryView(navController)
+        }
+
+        composable(route = HistoryScreen.InputHistoryScreen.route) {
+            val savedState = navController.previousBackStackEntry?.savedStateHandle
+            val isSetHours = savedState?.get<Boolean>("isSetHours") ?: false
+            val history = savedState?.get<History>("history")
+
+            history?.let {
+                InputHistoryScreen(
+                    navHostController = navController,
+                    history = it,
+                    isSetHours = isSetHours
+                )
+            }
         }
     }
 }
