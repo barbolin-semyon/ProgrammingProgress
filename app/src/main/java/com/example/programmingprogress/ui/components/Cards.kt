@@ -10,15 +10,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.programmingprogress.model.entities.History
-import com.example.programmingprogress.ui.theme.LightRed
-import com.example.programmingprogress.ui.theme.Gray
-import com.example.programmingprogress.ui.theme.Green
-import com.example.programmingprogress.ui.theme.Red
+import com.example.programmingprogress.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -73,11 +71,19 @@ fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
                 style = MaterialTheme.typography.body1
             )
+
             Spacer(
                 modifier = Modifier
                     .size(16.dp)
-                    .background(if (history.check) Green else Red)
+                    .background(getColorForHistory(history))
             )
         }
     }
+}
+
+private fun getColorForHistory(history: History): Color {
+    if (history.check) return Green
+    else if (history.description.isNotEmpty()) return Orange
+    return Red
+
 }
