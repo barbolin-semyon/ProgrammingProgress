@@ -25,6 +25,7 @@ import com.example.programmingprogress.ui.theme.DarkGray
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
 import com.example.programmingprogress.util.parseToShortString
+import java.util.*
 
 @Composable
 fun DetailHistoryScreen(navHostController: NavHostController, history: History) {
@@ -36,7 +37,7 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History) 
 
     BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
         if (history.check.not()) {
-            NoProgrammingScreen(navHostController)
+            NoProgrammingScreen(navHostController, history)
         } else {
             Content(history)
         }
@@ -82,13 +83,14 @@ private fun Content(history: History) {
 }
 
 @Composable
-fun NoProgrammingScreen(navHostController: NavHostController) {
+fun NoProgrammingScreen(navHostController: NavHostController, history: History) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(
-            text = "Сегодня вы не программировали",
+            text = "${history.getDate().parseToShortString()} вы не программировали",
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp),
             color = DarkGray,
