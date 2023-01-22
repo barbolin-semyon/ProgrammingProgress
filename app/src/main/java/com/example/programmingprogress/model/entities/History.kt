@@ -8,9 +8,9 @@ import java.util.Date
 @Parcelize
 data class History(
     private val date: Date = Date(),
-    val description: String = "",
+    var description: String = "",
     val check: Boolean = false,
-    val hours: Double = 0.0,
+    var hours: Double = 0.0,
 ) : Parcelable {
     fun getDate(): Calendar {
         return Calendar.getInstance().apply {
