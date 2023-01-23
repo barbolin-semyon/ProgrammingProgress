@@ -21,10 +21,11 @@ import java.util.*
 
 @Composable
 fun CalendarHeader(
-    currentDate: MutableState<Calendar>,
-    theme: CalendarHeaderTheme
+    changeMonth: (index: Int) -> Unit,
+    currentDate: Date,
+    theme: CalendarHeaderTheme,
 ) {
-    val header = SimpleDateFormat("LLLL, yyyy", Locale("ru")).format(currentDate.value.time)
+    val header = SimpleDateFormat("LLLL, yyyy", Locale("ru")).format(currentDate.time)
 
     theme.apply {
 
@@ -34,10 +35,9 @@ fun CalendarHeader(
             modifier = Modifier.padding(bottom = 16.dp)
         ) {
             ButtonForChangeCurrentMonth(
-                currentDate = currentDate,
+                changeMonth = {changeMonth(-1)},
                 iconId = R.drawable.baseline_arrow_left,
                 color = headerTextColor,
-                index = -1
             )
 
             Text(
@@ -50,10 +50,9 @@ fun CalendarHeader(
             )
 
             ButtonForChangeCurrentMonth(
-                currentDate = currentDate,
+                changeMonth = {changeMonth(1)},
                 iconId = R.drawable.baseline_arrow_right,
                 color = headerTextColor,
-                index = 1
             )
         }
     }
@@ -61,10 +60,9 @@ fun CalendarHeader(
 
 @Composable
 private fun ButtonForChangeCurrentMonth(
-    currentDate: MutableState<Calendar>,
+    changeMonth: () -> Unit,
     iconId: Int,
     color: Color,
-    index: Int
 ) {
     Icon(
         painter = painterResource(id = iconId),
@@ -72,10 +70,6 @@ private fun ButtonForChangeCurrentMonth(
         tint = color,
         modifier = Modifier
             .size(70.dp)
-            .clickable {
-                val tempDate = currentDate.value.clone() as Calendar
-                tempDate.add(Calendar.MONTH, index)
-                currentDate.value = tempDate
-            }
+            .clickable { changeMonth() }
     )
 }
