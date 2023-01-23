@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.calendar.CalendarHeader
 import com.example.programmingprogress.ui.components.calendar.CalendarItem
@@ -48,6 +49,7 @@ fun CalendarView(
                 Text(
                     weekDay,
                     color = calendarTheme.calendarHeaderTheme.headerTextColor,
+                    fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )
             }
