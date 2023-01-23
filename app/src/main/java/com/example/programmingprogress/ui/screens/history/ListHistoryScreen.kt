@@ -20,11 +20,8 @@ import java.util.*
 fun ListHistoryView(navHostController: NavHostController) {
     val viewModel: HistoryViewModel = viewModel()
     val history = viewModel.history.observeAsState()
-    val currentDate by remember { mutableStateOf(Calendar.getInstance()) }
+    var currentDate by remember { mutableStateOf(Calendar.getInstance()) }
 
-    LaunchedEffect(key1 = history, block = {
-        viewModel.enableListenerHistory(currentDate)
-    })
 
     CustomToolbar(title = "Детали")
 
@@ -43,7 +40,8 @@ fun ListHistoryView(navHostController: NavHostController) {
                 changeMonth = {
                     viewModel.disableListener()
                     currentDate.add(Calendar.MONTH, it)
-                    viewModel.enableListenerHistory(tempDate = currentDate)
+
+                    viewModel.enableListenerHistory(tempDate = currentDate.clone() as Calendar)
                 }
             )
         }

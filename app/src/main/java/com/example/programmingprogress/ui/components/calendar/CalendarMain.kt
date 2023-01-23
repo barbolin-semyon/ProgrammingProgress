@@ -36,9 +36,11 @@ fun CalendarView(
             .background(calendarTheme.backgroundColor)
     ) {
         CalendarHeader(
-            currentDate = days[0].date,
+            currentDate = days[15].date,
             theme = calendarTheme.calendarHeaderTheme,
-            changeMonth = { changeMonth(it) }
+            changeMonth = {
+                changeMonth(it)
+            }
         )
 
         LazyVerticalGrid(cells = GridCells.Fixed(7), content = {

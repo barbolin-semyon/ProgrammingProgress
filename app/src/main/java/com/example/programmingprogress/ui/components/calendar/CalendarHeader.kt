@@ -25,7 +25,7 @@ fun CalendarHeader(
     currentDate: Date,
     theme: CalendarHeaderTheme,
 ) {
-    val header = SimpleDateFormat("LLLL, yyyy", Locale("ru")).format(currentDate.time)
+    val header = SimpleDateFormat("LLLL, yyyy", Locale("ru")).format(currentDate)
 
     theme.apply {
 

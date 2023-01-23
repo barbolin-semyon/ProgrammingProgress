@@ -28,6 +28,9 @@ class HistoryViewModel : ViewModel() {
     private val historyDataSource = HistoryDataSource
     private lateinit var listener: ListenerRegistration
 
+    init {
+        enableListenerHistory(Calendar.getInstance())
+    }
     fun enableListenerHistory(tempDate: Calendar) {
 
         val result = getDays(tempDate)
