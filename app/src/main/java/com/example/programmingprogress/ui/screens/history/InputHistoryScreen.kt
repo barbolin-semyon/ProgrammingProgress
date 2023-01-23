@@ -34,8 +34,8 @@ fun InputHistoryScreen(
         navHostController.popBackStack()
     }
 
-    CustomToolbar("Ввод информации")
-    BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
+    CustomToolbar("Ввод информации", navHostController)
+    BackgroundCard {
         Column(modifier = Modifier.padding(start = 16.dp, top = 16.dp)) {
             TextWithCaption(
                 caption = "Дата",

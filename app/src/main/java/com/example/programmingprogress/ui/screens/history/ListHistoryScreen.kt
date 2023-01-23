@@ -23,12 +23,9 @@ fun ListHistoryView(navHostController: NavHostController) {
     var currentDate by remember { mutableStateOf(Calendar.getInstance()) }
 
 
-    CustomToolbar(title = "Детали")
+    CustomToolbar(title = "Детали", navHostController)
 
-    BackgroundCard(
-        topPadding = 90.dp,
-        angleRound = 90.dp,
-    ) {
+    BackgroundCard {
         history.value?.let {
             CalendarView(
                 days = history.value!!,

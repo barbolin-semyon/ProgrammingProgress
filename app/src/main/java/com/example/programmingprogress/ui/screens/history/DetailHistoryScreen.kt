@@ -34,7 +34,7 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History) 
         }
     }
 
-    BackgroundCard(topPadding = 90.dp, angleRound = 90.dp) {
+    BackgroundCard {
         if (history.check.not()) {
             NoProgrammingScreen(navHostController, history)
         } else {

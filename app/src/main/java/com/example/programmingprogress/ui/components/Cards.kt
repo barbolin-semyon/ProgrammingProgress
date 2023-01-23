@@ -27,27 +27,13 @@ enum class ClickType {
 
 @Composable
 fun BackgroundCard(
-    topPadding: Dp,
-    angleRound: Dp,
-    rotation: Float = 0f,
-    onClick: (isTapOnRight: Boolean) -> Unit = {},
     content: @Composable () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = topPadding)
-            .graphicsLayer { rotationY = rotation }
-            .pointerInput(Unit) {
-                val maxWidth = this.size.width
-                detectTapGestures(
-                    onPress = { press ->
-                        val isTapOnRight = ((press.x > (maxWidth / 4)))
-                        onClick(isTapOnRight)
-                    }
-                )
-            },
-        shape = RoundedCornerShape(topEnd = angleRound),
+            .padding(top = 80.dp),
+        shape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp),
         backgroundColor = Gray
     ) {
         content()
