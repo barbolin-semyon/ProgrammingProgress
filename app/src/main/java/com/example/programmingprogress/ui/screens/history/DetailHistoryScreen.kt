@@ -18,21 +18,19 @@ import com.example.programmingprogress.R
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
-import com.example.programmingprogress.ui.components.CustomToolbarForHistory
+import com.example.programmingprogress.ui.components.CustomToolbarWithCalendar
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.ui.navigation.HistoryScreen
-import com.example.programmingprogress.ui.navigation.Screen
 import com.example.programmingprogress.ui.theme.DarkGray
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
+import com.example.programmingprogress.util.parseCalendar
 import com.example.programmingprogress.util.parseToShortString
-import java.util.*
 
 @Composable
 fun DetailHistoryScreen(navHostController: NavHostController, history: History) {
-    CustomToolbarForHistory(title = "Детали") {
+    CustomToolbarWithCalendar(title = "Детали") {
         navHostController.navigate(HistoryScreen.ListHistoryScreen.route) {
-
         }
     }
 
@@ -60,7 +58,7 @@ private fun Content(history: History) {
 
             TextWithCaption(
                 caption = "Дата",
-                text = history.getDate().parseToShortString(),
+                text = history.date.parseToShortString(),
             )
         }
 
@@ -88,7 +86,7 @@ fun NoProgrammingScreen(navHostController: NavHostController, history: History) 
     ) {
 
         Text(
-            text = "${history.getDate().parseToShortString()} вы не программировали",
+            text = "${history.date.parseToShortString()} вы не программировали",
             style = MaterialTheme.typography.h5,
             modifier = Modifier.padding(top = 32.dp, start = 16.dp, end = 16.dp),
             color = DarkGray,

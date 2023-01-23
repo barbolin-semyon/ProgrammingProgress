@@ -1,6 +1,5 @@
 package com.example.programmingprogress.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,13 +9,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CardForHistory
 import com.example.programmingprogress.ui.components.ClickType
-import com.example.programmingprogress.ui.components.CustomToolbarForHistory
+import com.example.programmingprogress.ui.components.CustomToolbarWithCalendar
 import com.example.programmingprogress.ui.components.calendar.CalendarAlertDialog
 import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.viewmodel.HistoryViewModel
@@ -41,7 +39,7 @@ fun ListHistoryView(navHostController: NavHostController) {
 
     val isVisibleCalendarAlert = remember { mutableStateOf(false) }
 
-    CustomToolbarForHistory(title = "Детали") {
+    CustomToolbarWithCalendar(title = "Детали") {
         isVisibleCalendarAlert.value = true
     }
 

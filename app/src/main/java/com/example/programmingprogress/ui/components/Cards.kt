@@ -67,7 +67,7 @@ fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
     ) {
         Row {
             Text(
-                text = format.format(history.getDate().time),
+                text = format.format(history.date),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
                 style = MaterialTheme.typography.body1
             )
