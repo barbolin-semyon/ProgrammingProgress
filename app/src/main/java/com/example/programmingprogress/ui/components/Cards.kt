@@ -53,34 +53,6 @@ fun BackgroundCard(
         content()
     }
 }
-
-@Composable
-fun CardForHistory(history: History, rotation: Float, onClick: () -> Unit) {
-    val format = SimpleDateFormat("dd MMMM yyyy", Locale("RU", "ru"))
-
-    Card(
-        modifier = Modifier
-            .padding(vertical = 4.dp)
-            .graphicsLayer(rotationY = rotation)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Row {
-            Text(
-                text = format.format(history.date),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
-                style = MaterialTheme.typography.body1
-            )
-
-            Spacer(
-                modifier = Modifier
-                    .size(16.dp)
-                    .background(getColorForHistory(history))
-            )
-        }
-    }
-}
-
 private fun getColorForHistory(history: History): Color {
     if (history.check) return Green
     else if (history.description.isNotEmpty()) return Orange
