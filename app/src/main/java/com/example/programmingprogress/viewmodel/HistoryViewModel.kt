@@ -6,11 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.model.firebase.HistoryDataSource
-import com.example.programmingprogress.util.getDate
-import com.example.programmingprogress.util.getDayOfWeek
-import com.example.programmingprogress.util.parseCalendar
+import com.example.programmingprogress.util.*
 import com.google.firebase.firestore.ListenerRegistration
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
@@ -25,12 +22,13 @@ class HistoryViewModel : ViewModel() {
     val isNavigateBack: LiveData<Boolean>
         get() = _isNavigateBack
 
+    private val _isLoadTodayHistory by lazy { MutableLiveData<History>(null) }
+    val isLoadTodayHistory: LiveData<History>
+        get() = _isLoadTodayHistory
+
     private val historyDataSource = HistoryDataSource
     private lateinit var listener: ListenerRegistration
 
-    init {
-        enableListenerHistory(Calendar.getInstance())
-    }
     fun enableListenerHistory(tempDate: Calendar) {
 
         val result = getDays(tempDate)
@@ -44,11 +42,13 @@ class HistoryViewModel : ViewModel() {
             historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
                     val date = it.date.parseCalendar()
+                    val razn = if (tempDate.getYear() > date.getYear()) {
+                        date.add(Calendar.DATE, 8)
+                        tempDate.getDayOfYear() - date.getDayOfYear() + 8
+                    } else {
+                        tempDate.getDayOfYear() - date.getDayOfYear()
+                    }
 
-                    val razn =
-                        (tempDate.get((Calendar.DAY_OF_YEAR))) - date.get(Calendar.DAY_OF_YEAR)
-                    tempDate.get((Calendar.DAY_OF_YEAR))
-                    date.get(Calendar.DAY_OF_YEAR)
                     tempList[countDay - razn] = it
                 }
                 _history.value = tempList
@@ -102,6 +102,7 @@ class HistoryViewModel : ViewModel() {
             )
         }
     }
+
     fun disableListener() {
         listener.remove()
     }
