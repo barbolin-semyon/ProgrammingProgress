@@ -1,4 +1,4 @@
-package com.example.programmingprogress.ui.screens
+package com.example.programmingprogress.ui.screens.history
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
