@@ -39,7 +39,7 @@ class HistoryViewModel : ViewModel() {
         val end = Timestamp(tempList.last().date.time)
 
         listener =
-            historyDataSource.getQueryReviews(start, end).addSnapshotListener { value, error ->
+            historyDataSource.getQueryHistory(start, end).addSnapshotListener { value, error ->
                 value?.toObjects(History::class.java)?.forEach {
                     val date = it.date.parseCalendar()
                     val razn = if (tempDate.getYear() > date.getYear()) {
@@ -87,7 +87,7 @@ class HistoryViewModel : ViewModel() {
             }
             val end = Timestamp(date.time.time)
 
-            historyDataSource.getQueryReviews(start, end).get().addOnSuccessListener {
+            historyDataSource.getQueryHistory(start, end).get().addOnSuccessListener {
                 _isLoadTodayHistory.value = it.toObjects(History::class.java).getOrNull(0)
             }
         }
