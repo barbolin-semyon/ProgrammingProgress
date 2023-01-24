@@ -26,6 +26,10 @@ class HistoryViewModel : ViewModel() {
     val isLoadTodayHistory: LiveData<History>
         get() = _isLoadTodayHistory
 
+    private val _countSuccessDays = MutableLiveData(0L)
+    val countSuccessDats: LiveData<Long>
+        get() = _countSuccessDays
+
     private val historyDataSource = HistoryDataSource
     private lateinit var listener: ListenerRegistration
 
@@ -54,7 +58,9 @@ class HistoryViewModel : ViewModel() {
                 _history.value = tempList
             }
     }
-
+    fun disableListener() {
+        listener.remove()
+    }
     private fun getDays(currentDate: Calendar): Pair<MutableList<History>, Int> {
         currentDate.set(Calendar.DATE, 1)
 
@@ -103,7 +109,9 @@ class HistoryViewModel : ViewModel() {
         }
     }
 
-    fun disableListener() {
-        listener.remove()
+    fun getCountSuccessDays() {
+        historyDataSource.getQueryCountSuccessHistory().addOnSuccessListener {
+            _countSuccessDays.value = it.count
+        }
     }
 }

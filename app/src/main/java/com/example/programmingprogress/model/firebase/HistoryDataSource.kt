@@ -2,9 +2,7 @@ package com.example.programmingprogress.model.firebase
 
 import com.example.programmingprogress.model.entities.History
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.AggregateQuerySnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import java.sql.Timestamp
 
 object HistoryDataSource {
@@ -28,5 +26,11 @@ object HistoryDataSource {
             .orderBy("date")
             .startAt(startDate)
             .endBefore(endDate)
+    }
+    fun getQueryCountSuccessHistory(): Task<AggregateQuerySnapshot> {
+        return db.collection("users")
+            .document("tHKEs9c73mNfXcAkX1Mk")
+            .collection("history").whereEqualTo("check", true)
+            .count().get(AggregateSource.SERVER)
     }
 }

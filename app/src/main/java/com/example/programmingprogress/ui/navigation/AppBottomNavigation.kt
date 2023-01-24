@@ -32,12 +32,12 @@ fun AppBottomNavigation(navHostController: NavHostController) {
                         selectedContentColor = White,
                         unselectedContentColor = LightRed,
                         onClick = {
-                            navHostController.navigate(currentRoute) {
-                                popUpTo(currentRoute) {
+                            navHostController.navigate(currentScreen.route) {
+                                popUpTo(navHostController.graph.startDestinationId) {
                                     saveState = true
-                                    inclusive = true
                                 }
                                 launchSingleTop = true
+                                restoreState = true
                             }
                         },
                         icon = {

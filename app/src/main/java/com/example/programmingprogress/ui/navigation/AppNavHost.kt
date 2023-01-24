@@ -9,6 +9,7 @@ import androidx.navigation.navigation
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.screens.DetailHistoryScreen
 import com.example.programmingprogress.ui.screens.ListHistoryView
+import com.example.programmingprogress.ui.screens.checkpoint.Checkpoint
 import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
 
 @Composable
@@ -43,7 +44,7 @@ private fun NavGraphBuilder.main(navController: NavHostController) {
         }
 
         composable(route = MainScreen.Checkpoints.route) {
-
+            Checkpoint(navController)
         }
     }
 }
