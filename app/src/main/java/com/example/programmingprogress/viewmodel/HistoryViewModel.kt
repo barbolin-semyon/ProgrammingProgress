@@ -73,6 +73,26 @@ class HistoryViewModel : ViewModel() {
         return Pair(tempDays, countDayInMonth)
     }
 
+    fun getHistoryForToday() = viewModelScope.launch {
+        withContext(this.coroutineContext) {
+            val date = Calendar.getInstance().apply {
+                set(Calendar.HOUR, 0)
+                set(Calendar.MINUTE, 0)
+            }
+
+            val start = Timestamp(date.time.time)
+            date.apply {
+                set(Calendar.HOUR, 23)
+                set(Calendar.MINUTE, 59)
+            }
+            val end = Timestamp(date.time.time)
+
+            historyDataSource.getQueryReviews(start, end).get().addOnSuccessListener {
+                _isLoadTodayHistory.value = it.toObjects(History::class.java).getOrNull(0)
+            }
+        }
+    }
+
     fun updateHistory(history: History) = viewModelScope.launch {
         withContext(this.coroutineContext) {
             historyDataSource.updateHistoryElement(

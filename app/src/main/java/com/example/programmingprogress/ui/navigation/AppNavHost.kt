@@ -10,8 +10,6 @@ import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.screens.DetailHistoryScreen
 import com.example.programmingprogress.ui.screens.ListHistoryView
 import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
-import java.sql.Timestamp
-import java.util.*
 
 @Composable
 fun AppNavHost(navController: NavHostController, startDestination: String) {
@@ -58,12 +56,6 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
         composable(route = HistoryScreen.DetailHistoryScreen.route) {
             var history =
                 navController.previousBackStackEntry?.savedStateHandle?.get<History>("history")
-                    ?: History(
-                        check = false,
-                        date = Calendar.getInstance().time,
-                        description = "",
-                        hours = 0.0
-                    )
 
             DetailHistoryScreen(navController, history)
         }

@@ -7,12 +7,14 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.R
 import com.example.programmingprogress.model.entities.History
@@ -24,23 +26,39 @@ import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.ui.theme.DarkGray
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.Red
-import com.example.programmingprogress.util.parseCalendar
 import com.example.programmingprogress.util.parseToShortString
+import com.example.programmingprogress.viewmodel.HistoryViewModel
 
 @Composable
-fun DetailHistoryScreen(navHostController: NavHostController, history: History) {
+fun DetailHistoryScreen(navHostController: NavHostController, history: History?) {
+    var day by remember { mutableStateOf(history) }
+
+    if (day == null) {
+        val viewModel = viewModel(HistoryViewModel::class.java)
+        val currentDay = viewModel.isLoadTodayHistory.observeAsState()
+        LaunchedEffect(key1 = Unit, block = {
+            viewModel.getHistoryForToday()
+        })
+
+        currentDay.value?.let {
+            day = it
+        }
+    } else {
+        BackgroundCard {
+            if (day!!.check.not()) {
+                NoProgrammingScreen(navHostController, day!!)
+            } else {
+                Content(day!!)
+            }
+        }
+    }
+
     CustomToolbarWithCalendar(title = "Детали") {
         navHostController.navigate(HistoryScreen.ListHistoryScreen.route) {
         }
     }
 
-    BackgroundCard {
-        if (history.check.not()) {
-            NoProgrammingScreen(navHostController, history)
-        } else {
-            Content(history)
-        }
-    }
+
 }
 
 @Composable
@@ -123,7 +141,9 @@ fun NoProgrammingScreen(navHostController: NavHostController, history: History) 
 
 @Composable
 private fun DescriptionText(text: String) {
-    Card(modifier = Modifier.fillMaxWidth().padding(16.dp), elevation = 8.dp) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp), elevation = 8.dp) {
         Text(modifier = Modifier.padding(16.dp), text = text, fontSize = 18.sp)
     }
 }
