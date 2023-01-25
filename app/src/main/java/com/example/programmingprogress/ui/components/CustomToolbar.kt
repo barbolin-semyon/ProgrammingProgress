@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.R
+import com.example.programmingprogress.ui.navigation.BottomNavScreens
 import com.example.programmingprogress.ui.theme.White
 
 @Composable
@@ -22,7 +23,7 @@ fun CustomToolbar(title: String, navHostController: NavHostController) {
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        if (navHostController.currentDestination!!.route != navHostController.graph.startDestinationRoute) {
+        if (!(navHostController.currentDestination!!.route in  BottomNavScreens.map { it.route })) {
             IconButton(onClick = { navHostController.popBackStack() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),

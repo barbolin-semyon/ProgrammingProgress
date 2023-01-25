@@ -28,7 +28,14 @@ fun ListHistoryView(navHostController: NavHostController) {
                 onClick = {
                     viewModel.disableListener()
                     navHostController.currentBackStackEntry?.savedStateHandle?.set("history", it)
-                    navHostController.navigate(HistoryScreen.DetailHistoryScreen.route)
+                    navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
+                        popUpTo(HistoryScreen.ListHistoryScreen.route) {
+                            saveState = true
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 changeMonth = {
                     viewModel.disableListener()
