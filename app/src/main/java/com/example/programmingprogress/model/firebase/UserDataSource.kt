@@ -1,42 +1,33 @@
 package com.example.programmingprogress.model.firebase
 
-import com.example.programmingprogress.model.entities.User
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.*
 
 object UserDataSource {
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
+    val db = FirebaseFirestore.getInstance()
+    val ioDispatcher = Dispatchers.IO
 
-    private val ioDispatcher = Dispatchers.IO
-    fun getUserId() = auth.currentUser?.uid
-
-    suspend fun signOut() = withContext(ioDispatcher) {
-        auth.signOut()
+    suspend fun getInformationUser(userId: String) = withContext(ioDispatcher) {
+        return@withContext db.collection("users").document(userId).get()
     }
 
-    suspend fun signInWithEmail(email: String, password: String) = withContext(ioDispatcher) {
-        return@withContext auth.signInWithEmailAndPassword(email, password)
-    }
-
-    suspend fun createUser(email: String, password: String) = withContext(ioDispatcher) {
-        return@withContext auth.createUserWithEmailAndPassword(email, password)
-    }
-
-    suspend fun updateUserScore(userId: String, data: Map<String, Object>) =
+    suspend fun updateCountOfDaysSuccess(userId: String, countOfDaysSuccess: Int) =
         withContext(ioDispatcher) {
-            return@withContext db.collection("users").document(userId).update(data)
+            return@withContext db.collection("users").document(userId)
+                .update("countOfDaysSuccess", countOfDaysSuccess)
         }
 
-    suspend fun addUserInDb(user: User) = withContext(ioDispatcher) {
-        return@withContext db.collection("users").document(user.id).set(user)
-    }
-
-    suspend fun getInformationUser() = withContext(ioDispatcher) {
-        return@withContext db.collection("users").document(getUserId()!!).get()
+    suspend fun updateCountOfConsecutiveDays(
+        userId: String,
+        countOfConsecutiveDays: Int,
+        lastDate: Date
+    ) = withContext(ioDispatcher) {
+        return@withContext db.collection("users").document(userId)
+            .update(
+                "countOfConsecutiveDays", countOfConsecutiveDays,
+                "lastDateOfConsecutiveDays", lastDate
+            )
     }
 }
