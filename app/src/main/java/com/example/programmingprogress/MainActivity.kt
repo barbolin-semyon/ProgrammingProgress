@@ -48,7 +48,8 @@ class MainActivity : ComponentActivity() {
                         .background(Green)) {
                         AppNavHost(
                             navController = navController,
-                            startDestination = startDestination
+                            startDestination = startDestination,
+                            changeTitle = {title = it}
                         )
                     }
                 }

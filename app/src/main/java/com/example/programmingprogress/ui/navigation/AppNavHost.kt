@@ -13,48 +13,64 @@ import com.example.programmingprogress.ui.screens.checkpoint.Checkpoint
 import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
 
 @Composable
-fun AppNavHost(navController: NavHostController, startDestination: String) {
+fun AppNavHost(
+    navController: NavHostController,
+    startDestination: String,
+    changeTitle: (title: String) -> Unit
+) {
     NavHost(navController = navController, startDestination = startDestination) {
-        main(navController = navController)
-        authorization(navController = navController)
+        main(navController = navController, changeTitle = changeTitle)
+        authorization(navController = navController, changeTitle = changeTitle)
     }
 }
 
-private fun NavGraphBuilder.authorization(navController: NavHostController) {
+private fun NavGraphBuilder.authorization(
+    navController: NavHostController,
+    changeTitle: (title: String) -> Unit
+) {
     navigation(
         startDestination = AuthorizationScreen.SignInScreen.route,
         route = Screen.Authorization.route
     ) {
         composable(route = AuthorizationScreen.SignInScreen.route) {
-
+            changeTitle("Авторизация")
         }
 
         composable(route = AuthorizationScreen.RegistrationScreen.route) {
-
+            changeTitle("Регистрация")
         }
     }
 }
 
-private fun NavGraphBuilder.main(navController: NavHostController) {
+private fun NavGraphBuilder.main(
+    navController: NavHostController,
+    changeTitle: (title: String) -> Unit
+) {
     navigation(startDestination = MainScreen.History.route, route = Screen.Main.route) {
-        history(navController = navController)
+        history(navController = navController, changeTitle = changeTitle)
 
         composable(route = MainScreen.Rating.route) {
 
         }
 
         composable(route = MainScreen.Checkpoints.route) {
+            changeTitle("Достижеия")
             Checkpoint(navController)
         }
     }
 }
 
-private fun NavGraphBuilder.history(navController: NavHostController) {
+private fun NavGraphBuilder.history(
+    navController: NavHostController,
+    changeTitle: (title: String) -> Unit
+) {
     navigation(
         startDestination = HistoryScreen.DetailHistoryScreen.route,
         route = MainScreen.History.route
     ) {
         composable(route = HistoryScreen.DetailHistoryScreen.route) {
+            changeTitle("Детали")
+
             var history =
                 navController.previousBackStackEntry?.savedStateHandle?.get<History>("history")
 
@@ -62,10 +78,13 @@ private fun NavGraphBuilder.history(navController: NavHostController) {
         }
 
         composable(route = HistoryScreen.ListHistoryScreen.route) {
+            changeTitle("Календарь")
             ListHistoryView(navController)
         }
 
         composable(route = HistoryScreen.InputHistoryScreen.route) {
+            changeTitle("Ввод информации")
+
             val savedState = navController.previousBackStackEntry?.savedStateHandle
             val isSetHours = savedState?.get<Boolean>("isSetHours") ?: false
             val history = savedState?.get<History>("history")
