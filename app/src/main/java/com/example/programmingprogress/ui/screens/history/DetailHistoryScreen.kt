@@ -20,7 +20,6 @@ import com.example.programmingprogress.R
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
-import com.example.programmingprogress.ui.components.CustomToolbarWithCalendar
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.ui.theme.DarkGray
@@ -52,13 +51,6 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History?)
             }
         }
     }
-
-    CustomToolbarWithCalendar(title = "Детали") {
-        navHostController.navigate(HistoryScreen.ListHistoryScreen.route) {
-        }
-    }
-
-
 }
 
 @Composable

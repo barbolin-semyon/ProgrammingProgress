@@ -19,8 +19,6 @@ fun ListHistoryView(navHostController: NavHostController) {
         viewModel.enableListenerHistory(currentDate)
     })
 
-    CustomToolbar(title = "Детали", navHostController)
-
     BackgroundCard {
         history.value?.let {
             CalendarView(

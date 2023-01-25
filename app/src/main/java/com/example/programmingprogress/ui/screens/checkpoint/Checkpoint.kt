@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.ui.components.BackgroundCard
-import com.example.programmingprogress.ui.components.CustomToolbar
 import com.example.programmingprogress.ui.theme.*
 import com.example.programmingprogress.viewmodel.HistoryViewModel
 
@@ -32,8 +31,6 @@ fun Checkpoint(navHostController: NavHostController) {
     LaunchedEffect(key1 = Unit, block = {
         viewModel.getCountSuccessDays()
     })
-
-    CustomToolbar(title = "Достижения", navHostController = navHostController)
 
     BackgroundCard {
         stateCheckpoint.value?.let {

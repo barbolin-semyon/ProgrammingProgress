@@ -17,7 +17,7 @@ fun BackgroundCard(
     Card(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 80.dp),
+            .padding(top = 8.dp),
         shape = RoundedCornerShape(topEnd = 32.dp, topStart = 32.dp),
         backgroundColor = Gray
     ) {

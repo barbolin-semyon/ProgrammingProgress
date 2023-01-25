@@ -16,7 +16,6 @@ import androidx.navigation.NavHostController
 import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.Counter
-import com.example.programmingprogress.ui.components.CustomToolbar
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.util.parseToShortString
 import com.example.programmingprogress.viewmodel.HistoryViewModel
@@ -34,7 +33,6 @@ fun InputHistoryScreen(
         navHostController.popBackStack()
     }
 
-    CustomToolbar("Ввод информации", navHostController)
     BackgroundCard {
         Column(modifier = Modifier.padding(start = 16.dp, top = 16.dp)) {
             TextWithCaption(
