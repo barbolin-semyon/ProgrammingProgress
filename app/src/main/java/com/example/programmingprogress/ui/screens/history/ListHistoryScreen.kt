@@ -29,7 +29,6 @@ fun ListHistoryView(navHostController: NavHostController) {
                     navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
                         popUpTo(HistoryScreen.ListHistoryScreen.route) {
                             saveState = true
-                            inclusive = true
                         }
                         launchSingleTop = true
                         restoreState = true
