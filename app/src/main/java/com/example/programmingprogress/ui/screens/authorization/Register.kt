@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.programmingprogress.ui.components.CustomTextField
 import com.example.programmingprogress.util.checkValidEmail
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
@@ -19,62 +20,50 @@ fun RegisterView(authViewModel: AuthViewModel) {
     var nickname by remember { mutableStateOf("") }
 
     Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        CustomTextField(
             value = nickname,
             onValueChange = { nickname = it },
             isError = password.length in 1..5,
-            label = { Text(text = "Введите nickname") },
+            textLabel = "Введите nickname",
         )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        CustomTextField(
             value = email,
             onValueChange = { email = it },
             isError = email.checkValidEmail().not() && email.isNotEmpty(),
-            label = { Text(text = "Введите email") },
+            textLabel = "Введите email",
         )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        CustomTextField(
             value = password,
             onValueChange = { password = it },
             isError = password.length in 1..5,
-            label = {
-                Text(
-                    text = "Введите пароль " + if (password.length in 1..5) "(Меньше 6 символов)"
-                    else ""
-                )
-            },
+            textLabel = "Введите пароль " + if (password.length in 1..5) "(Меньше 6 символов)"
+            else ""
         )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        CustomTextField(
             value = repeatPassword,
             onValueChange = { repeatPassword = it },
             isError = password != repeatPassword,
-            label = {
-                Text(
-                    text = "Повторите пароль" + if (password != repeatPassword) "(Пароли не совпадают)"
-                    else ""
-                )
-            },
+            textLabel = "Повторите пароль" + if (password != repeatPassword) "(Пароли не совпадают)"
+            else ""
         )
 
-        Button(
-            enabled = email.checkValidEmail()
-                    && password.length >= 6
-                    && password == repeatPassword
-                    && nickname.isNotEmpty(),
-            onClick = {
-                authViewModel.register(
-                    email = email,
-                    nickname = nickname,
-                    password = password
-                )
-            }) {
-            Text(text = "Зарегистрироваться")
-        }
+    Button(
+        enabled = email.checkValidEmail()
+                && password.length >= 6
+                && password == repeatPassword
+                && nickname.isNotEmpty(),
+        onClick = {
+            authViewModel.register(
+                email = email,
+                nickname = nickname,
+                password = password
+            )
+        }) {
+        Text(text = "Зарегистрироваться")
     }
+}
 
 }
