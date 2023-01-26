@@ -42,36 +42,42 @@ fun SignInView(navHostController: NavHostController) {
             else ""
         )
 
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.End
+        Buttons(
+            enabledSignIn = password.length > 6 && email.checkValidEmail(),
+            onclickSignIn = { authViewModel.signInWithEmail(email, password) },
+            onclickRegister = { navHostController.navigate(AuthorizationScreen.RegistrationScreen.route) }
+        )
+    }
+}
+
+@Composable
+private fun Buttons(
+    enabledSignIn: Boolean,
+    onclickSignIn: () -> Unit,
+    onclickRegister: () -> Unit
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Button(
+            colors = ButtonDefaults.buttonColors(backgroundColor = Green),
+            modifier = Modifier.padding(end = 8.dp),
+            enabled = enabledSignIn,
+            onClick = { onclickSignIn() }
         ) {
-            Button(
-                colors = ButtonDefaults.buttonColors(backgroundColor = Green),
-                modifier = Modifier.padding(end = 8.dp),
-                enabled = email.checkValidEmail() && password.length >= 6,
-                onClick = { authViewModel.signInWithEmail(email, password) }
-            ) {
-                Text(
-                    text = "Войти",
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    color = White
-                )
-            }
-
-            Button(
-                onClick = {
-                    navHostController.navigate(AuthorizationScreen.RegistrationScreen.route)
-                }) {
-                Text(text = "Зарегистрироваться")
-            }
-
-
+            Text(
+                text = "Войти",
+                modifier = Modifier.padding(horizontal = 16.dp),
+                color = White
+            )
         }
 
+        Button(
+            onClick = { onclickRegister() }) {
+            Text(text = "Зарегистрироваться")
+        }
     }
-
-
 }
