@@ -34,7 +34,7 @@ fun SignInView() {
             modifier = Modifier.fillMaxWidth(),
             value = email,
             onValueChange = { email = it },
-            isError = email.checkValidEmail().not(),
+            isError = email.checkValidEmail().not() && email.isNotEmpty(),
             label = { Text(text = "Введите email") },
         )
 
@@ -57,17 +57,18 @@ fun SignInView() {
                 .padding(8.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Зарегистрироваться")
-            }
-
             Button(
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier.padding(end = 8.dp),
                 enabled = email.checkValidEmail() && password.length >= 6,
                 onClick = { authViewModel.signInWithEmail(email, password) }
             ) {
                 Text(text = "Войти", modifier = Modifier.padding(horizontal = 16.dp))
             }
+
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Зарегистрироваться")
+            }
+
 
         }
 
