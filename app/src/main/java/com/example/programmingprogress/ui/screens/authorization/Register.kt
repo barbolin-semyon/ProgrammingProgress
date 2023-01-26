@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.programmingprogress.model.entities.User
 import com.example.programmingprogress.util.checkValidEmail
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
@@ -68,7 +69,13 @@ fun RegisterView() {
                     && password.length >= 6
                     && password == repeatPassword
                     && nickname.isNotEmpty(),
-            onClick = { authViewModel.register(email, password) }) {
+            onClick = {
+                authViewModel.register(
+                    email = email,
+                    nickname = nickname,
+                    password = password
+                )
+            }) {
             Text(text = "Зарегистрироваться")
         }
     }

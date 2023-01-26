@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.programmingprogress.model.entities.User
 import com.example.programmingprogress.model.firebase.AuthDataSource
 import com.example.programmingprogress.util.AuthorizationType
 import kotlinx.coroutines.async
@@ -47,11 +48,22 @@ class AuthViewModel() : ViewModel() {
         _typeAuthorization.value = AuthorizationType.NOT_AUTHORIZATION
     }
 
-    fun register(email: String, password: String) = viewModelScope.launch {
+    fun register(email: String, nickname: String, password: String) = viewModelScope.launch {
         authDataSource.createUser(email, password).addOnCompleteListener { task ->
             with(task) {
                 addOnSuccessListener {
-                    _typeAuthorization.value = AuthorizationType.AUTHORIZATION
+                    launch {
+                        val user = User(
+                            email = email,
+                            id = it.user!!.uid,
+                            name = nickname
+                        )
+
+                        authDataSource.addUserInDb(user)
+                            .addOnSuccessListener {
+                                _typeAuthorization.value = AuthorizationType.AUTHORIZATION
+                            }
+                    }
                 }
                 addOnFailureListener {
                     _isRequestError.value = it.message
