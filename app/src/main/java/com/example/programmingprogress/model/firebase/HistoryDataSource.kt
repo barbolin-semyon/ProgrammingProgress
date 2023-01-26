@@ -9,27 +9,28 @@ object HistoryDataSource {
     private val db = FirebaseFirestore.getInstance()
 
     fun updateHistoryElement(
+        userId: String,
         history: History,
         onSuccess: () -> Unit,
         onFailure: (message: Exception) -> Unit
     ) {
         db.collection("users")
-            .document("tHKEs9c73mNfXcAkX1Mk")
+            .document(userId)
             .collection("history").add(history)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure(it) }
     }
 
-    fun getQueryHistory(startDate: Timestamp, endDate: Timestamp): Query {
+    fun getQueryHistory(userId: String, startDate: Timestamp, endDate: Timestamp): Query {
         return db.collection("users")
-            .document("tHKEs9c73mNfXcAkX1Mk").collection("history")
+            .document(userId).collection("history")
             .orderBy("date")
             .startAt(startDate)
             .endBefore(endDate)
     }
-    fun getQueryCountSuccessHistory(): Task<AggregateQuerySnapshot> {
+    fun getQueryCountSuccessHistory(userId: String,): Task<AggregateQuerySnapshot> {
         return db.collection("users")
-            .document("tHKEs9c73mNfXcAkX1Mk")
+            .document(userId)
             .collection("history").whereEqualTo("check", true)
             .count().get(AggregateSource.SERVER)
     }
