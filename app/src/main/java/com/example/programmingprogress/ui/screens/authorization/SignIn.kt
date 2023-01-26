@@ -16,8 +16,7 @@ import com.example.programmingprogress.util.checkValidEmail
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
 @Composable
-fun SignInView(navHostController: NavHostController) {
-    val authViewModel = viewModel(AuthViewModel::class.java)
+fun SignInView(navHostController: NavHostController, authViewModel: AuthViewModel) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
