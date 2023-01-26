@@ -5,6 +5,7 @@ import com.example.programmingprogress.R
 sealed class Screen(val route: String) {
     object Authorization : Screen("authorization")
     object Main: Screen("main")
+    object Splash: Screen("splash")
 }
 
 sealed class AuthorizationScreen(val route: String) {
