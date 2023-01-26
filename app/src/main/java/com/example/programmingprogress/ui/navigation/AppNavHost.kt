@@ -42,7 +42,7 @@ private fun NavGraphBuilder.authorization(
     ) {
         composable(route = AuthorizationScreen.SignInScreen.route) {
             changeTitle("Авторизация")
-            SignInView(navHostController = navController)
+            SignInView(navHostController = navController, authViewModel = viewModel)
         }
 
         composable(route = AuthorizationScreen.RegistrationScreen.route) {

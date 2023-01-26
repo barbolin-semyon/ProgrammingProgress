@@ -16,9 +16,10 @@ import com.example.programmingprogress.ui.navigation.HistoryScreen
 import com.example.programmingprogress.ui.navigation.Screen
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.White
+import com.example.programmingprogress.viewmodel.AuthViewModel
 
 @Composable
-fun Toolbar(title: String, navHostController: NavHostController) {
+fun Toolbar(title: String, navHostController: NavHostController, authViewModel: AuthViewModel) {
     val state = navHostController.currentBackStackEntryAsState()
     val destination = state.value?.destination
 
@@ -43,6 +44,17 @@ fun Toolbar(title: String, navHostController: NavHostController) {
                         modifier = Modifier.size(32.dp)
                     )
                 }
+            }
+
+            IconButton(onClick = {
+                authViewModel.signOut()
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_exit_to_app_24),
+                    contentDescription = "Выйти из аккаунта",
+                    tint = White,
+                    modifier = Modifier.size(32.dp)
+                )
             }
         }
     )

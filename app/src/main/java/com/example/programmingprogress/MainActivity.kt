@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     topBar = {
-                        Toolbar(title, navController)
+                        Toolbar(title, navController, authViewModel = viewModel)
                     },
                     bottomBar = {
                         AppBottomNavigation(
