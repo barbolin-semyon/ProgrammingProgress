@@ -8,6 +8,7 @@ import java.util.*
 data class User(
     val id: String = "",
     val name: String = "",
+    val email: String = "",
     val countOfDaysSuccess: Int = 0,
     val countOfConsecutiveDaysSuccess: Int = 0,
     val lastDateOfConsecutiveDays: Date = Date(),
