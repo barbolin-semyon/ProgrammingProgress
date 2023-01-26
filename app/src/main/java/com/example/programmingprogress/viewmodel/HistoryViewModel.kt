@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.programmingprogress.model.entities.History
+import com.example.programmingprogress.model.firebase.AuthDataSource
 import com.example.programmingprogress.model.firebase.HistoryDataSource
 import com.example.programmingprogress.util.*
 import com.google.firebase.firestore.ListenerRegistration
@@ -31,6 +32,8 @@ class HistoryViewModel : ViewModel() {
         get() = _countSuccessDays
 
     private val historyDataSource = HistoryDataSource
+    private val authDataSource = AuthDataSource
+
     private lateinit var listener: ListenerRegistration
 
     fun enableListenerHistory(tempDate: Calendar) {
@@ -43,24 +46,27 @@ class HistoryViewModel : ViewModel() {
         val end = Timestamp(tempList.last().date.time)
 
         listener =
-            historyDataSource.getQueryHistory(start, end).addSnapshotListener { value, error ->
-                value?.toObjects(History::class.java)?.forEach {
-                    val date = it.date.parseCalendar()
-                    val razn = if (tempDate.getYear() > date.getYear()) {
-                        date.add(Calendar.DATE, 8)
-                        tempDate.getDayOfYear() - date.getDayOfYear() + 8
-                    } else {
-                        tempDate.getDayOfYear() - date.getDayOfYear()
-                    }
+            historyDataSource.getQueryHistory(authDataSource.getUserId()!!, start, end)
+                .addSnapshotListener { value, error ->
+                    value?.toObjects(History::class.java)?.forEach {
+                        val date = it.date.parseCalendar()
+                        val razn = if (tempDate.getYear() > date.getYear()) {
+                            date.add(Calendar.DATE, 8)
+                            tempDate.getDayOfYear() - date.getDayOfYear() + 8
+                        } else {
+                            tempDate.getDayOfYear() - date.getDayOfYear()
+                        }
 
-                    tempList[countDay - razn] = it
+                        tempList[countDay - razn] = it
+                    }
+                    _history.value = tempList
                 }
-                _history.value = tempList
-            }
     }
+
     fun disableListener() {
         listener.remove()
     }
+
     private fun getDays(currentDate: Calendar): Pair<MutableList<History>, Int> {
         currentDate.set(Calendar.DATE, 1)
 
@@ -93,15 +99,17 @@ class HistoryViewModel : ViewModel() {
             }
             val end = Timestamp(date.time.time)
 
-            historyDataSource.getQueryHistory(start, end).get().addOnSuccessListener {
-                _isLoadTodayHistory.value = it.toObjects(History::class.java).getOrNull(0)
-            }
+            historyDataSource.getQueryHistory(authDataSource.getUserId()!!, start, end).get()
+                .addOnSuccessListener {
+                    _isLoadTodayHistory.value = it.toObjects(History::class.java).getOrNull(0)
+                }
         }
     }
 
     fun updateHistory(history: History) = viewModelScope.launch {
         withContext(this.coroutineContext) {
             historyDataSource.updateHistoryElement(
+                userId = authDataSource.getUserId()!!,
                 history = history,
                 onSuccess = { _isNavigateBack.value = true },
                 onFailure = {}
@@ -109,9 +117,9 @@ class HistoryViewModel : ViewModel() {
         }
     }
 
-    fun getCountSuccessDays() {
+    /*fun getCountSuccessDays() {
         historyDataSource.getQueryCountSuccessHistory().addOnSuccessListener {
             _countSuccessDays.value = it.count
         }
-    }
+    }*/
 }
