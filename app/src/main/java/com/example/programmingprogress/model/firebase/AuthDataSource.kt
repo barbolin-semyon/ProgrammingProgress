@@ -11,7 +11,7 @@ object AuthDataSource {
     private val auth = FirebaseAuth.getInstance()
 
     private val ioDispatcher = Dispatchers.IO
-    fun getUserId() = auth.currentUser?.uid
+    suspend fun getUserId() = auth.currentUser?.uid
 
     suspend fun signOut() = withContext(ioDispatcher) {
         auth.signOut()

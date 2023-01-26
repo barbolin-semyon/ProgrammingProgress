@@ -5,27 +5,34 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.programmingprogress.model.firebase.AuthDataSource
+import com.example.programmingprogress.util.AuthorizationType
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AuthViewModel() : ViewModel() {
     private val authDataSource = AuthDataSource
 
-    private val _isRequestSuccess = MutableLiveData(false)
-    val isRequestSuccess: LiveData<Boolean>
-        get() = _isRequestSuccess
-
     private val _isRequestError = MutableLiveData("")
     val isRequestError: LiveData<String>
         get() = _isRequestError
 
-    fun isAuthorization() = authDataSource.getUserId() != null
+    private val _typeAuthorization = MutableLiveData(AuthorizationType.LOADING)
+    val typeAuthorization: LiveData<AuthorizationType>
+        get() = _typeAuthorization
+
+    fun checkAuthorization() = viewModelScope.launch {
+        val result = async { authDataSource.getUserId() != null }.await()
+        _typeAuthorization.value =
+            if (result) AuthorizationType.AUTHORIZATION else AuthorizationType.NOT_AUTHORIZATION
+    }
 
     fun signInWithEmail(email: String, password: String) {
         viewModelScope.launch {
             authDataSource.signInWithEmail(email, password).addOnCompleteListener { task ->
                 with(task) {
                     addOnSuccessListener {
-                        _isRequestSuccess.value = true
+                        _typeAuthorization.value = AuthorizationType.AUTHORIZATION
                     }
                     addOnFailureListener {
                         _isRequestError.value = it.message
@@ -36,14 +43,15 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun signOut() = viewModelScope.launch {
-        authDataSource.signOut()
+        async { authDataSource.signOut() }.await()
+        _typeAuthorization.value = AuthorizationType.NOT_AUTHORIZATION
     }
 
     fun register(email: String, password: String) = viewModelScope.launch {
         authDataSource.createUser(email, password).addOnCompleteListener { task ->
             with(task) {
                 addOnSuccessListener {
-                    _isRequestSuccess.value = true
+                    _typeAuthorization.value = AuthorizationType.AUTHORIZATION
                 }
                 addOnFailureListener {
                     _isRequestError.value = it.message

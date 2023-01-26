@@ -4,27 +4,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.programmingprogress.ui.navigation.Screen
+import com.example.programmingprogress.ui.navigation.AuthorizationScreen
 import com.example.programmingprogress.util.checkValidEmail
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
-@Preview
 @Composable
-fun SignInView() {
+fun SignInView(navHostController: NavHostController) {
     val authViewModel = viewModel(AuthViewModel::class.java)
-    val isSuccess = authViewModel.isRequestSuccess.observeAsState()
-
-    LaunchedEffect(key1 = isSuccess, block = {
-        //navHostController.navigate(Screen.Main.route)
-    })
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -65,7 +56,10 @@ fun SignInView() {
                 Text(text = "Войти", modifier = Modifier.padding(horizontal = 16.dp))
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(
+                onClick = {
+                    navHostController.navigate(AuthorizationScreen.RegistrationScreen.route)
+                }) {
                 Text(text = "Зарегистрироваться")
             }
 

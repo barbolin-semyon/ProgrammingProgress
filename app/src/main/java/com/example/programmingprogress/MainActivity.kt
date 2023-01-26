@@ -3,15 +3,16 @@ package com.example.programmingprogress
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.programmingprogress.ui.components.Toolbar
 import com.example.programmingprogress.ui.navigation.AppBottomNavigation
@@ -19,6 +20,8 @@ import com.example.programmingprogress.ui.navigation.AppNavHost
 import com.example.programmingprogress.ui.navigation.Screen
 import com.example.programmingprogress.ui.theme.Green
 import com.example.programmingprogress.ui.theme.ProgrammingProgressTheme
+import com.example.programmingprogress.util.AuthorizationType
+import com.example.programmingprogress.viewmodel.AuthViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
@@ -31,8 +34,11 @@ class MainActivity : ComponentActivity() {
                 UIController.setStatusBarColor(Green)
 
                 val navController = rememberNavController()
-                val startDestination = Screen.Main.route
-                var title by remember { mutableStateOf("progress")}
+
+                val viewModel = viewModel(AuthViewModel::class.java)
+                viewModel.checkAuthorization()
+
+                var title by remember { mutableStateOf("progress") }
 
                 Scaffold(
                     topBar = {
@@ -42,15 +48,17 @@ class MainActivity : ComponentActivity() {
                         AppBottomNavigation(
                             navHostController = navController,
                         )
-                    }) {
-                    Box(modifier = Modifier
-                        .padding(it)
-                        .background(Green)) {
+                    }) { padding ->
+                    Box(
+                        modifier = Modifier
+                            .padding(padding)
+                            .background(Green)
+                    ) {
                         AppNavHost(
                             navController = navController,
-                            startDestination = startDestination,
-                            changeTitle = {title = it}
+                            changeTitle = { title = it }
                         )
+                        ObserverAuthorizationState(viewModel, navHostController = navController)
                     }
                 }
             }
@@ -58,3 +66,25 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+private fun ObserverAuthorizationState(
+    viewModel: AuthViewModel,
+    navHostController: NavHostController
+) {
+    val state = viewModel.typeAuthorization.observeAsState()
+
+    val route = when(state.value) {
+        AuthorizationType.AUTHORIZATION -> Screen.Main.route
+        AuthorizationType.NOT_AUTHORIZATION -> Screen.Authorization.route
+        else -> Screen.Splash.route
+    }
+
+    navHostController.navigate(route) {
+        popUpTo(route) {
+            inclusive = true
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
