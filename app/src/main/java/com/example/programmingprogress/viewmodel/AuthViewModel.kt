@@ -1,5 +1,6 @@
 package com.example.programmingprogress.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.example.programmingprogress.util.AuthorizationType
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AuthViewModel() : ViewModel() {
     private val authDataSource = AuthDataSource
@@ -23,6 +25,7 @@ class AuthViewModel() : ViewModel() {
         get() = _typeAuthorization
 
     fun checkAuthorization() = viewModelScope.launch {
+        signOut()
         val result = async { authDataSource.getUserId() != null }.await()
         _typeAuthorization.value =
             if (result) AuthorizationType.AUTHORIZATION else AuthorizationType.NOT_AUTHORIZATION
@@ -49,26 +52,30 @@ class AuthViewModel() : ViewModel() {
     }
 
     fun register(email: String, nickname: String, password: String) = viewModelScope.launch {
-        authDataSource.createUser(email, password).addOnCompleteListener { task ->
-            with(task) {
-                addOnSuccessListener {
-                    launch {
-                        val user = User(
-                            email = email,
-                            id = it.user!!.uid,
-                            name = nickname
-                        )
+        authDataSource.createUser(email, password)
+            .addOnSuccessListener { result ->
+                val user = User(
+                    email = email,
+                    id = result.user!!.uid,
+                    name = nickname
+                )
 
-                        authDataSource.addUserInDb(user)
-                            .addOnSuccessListener {
-                                _typeAuthorization.value = AuthorizationType.AUTHORIZATION
-                            }
-                    }
-                }
-                addOnFailureListener {
-                    _isRequestError.value = it.message
-                }
+                addUserInDb(user)
             }
-        }
+            .addOnFailureListener {
+                _isRequestError.value = it.message
+            }
+    }
+
+
+    private fun addUserInDb(user: User) = viewModelScope.launch {
+        authDataSource.addUserInDb(user)
+            .addOnSuccessListener {
+                _typeAuthorization.value = AuthorizationType.AUTHORIZATION
+            }
+            .addOnFailureListener {
+                _isRequestError.value = it.message
+            }
     }
 }
+
