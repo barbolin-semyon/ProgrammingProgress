@@ -3,7 +3,6 @@ package com.example.programmingprogress
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -36,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
 
-                val viewModel = viewModel(AuthViewModel::class.java)
+                val viewModel: AuthViewModel = viewModel()
                 viewModel.checkAuthorization()
 
                 var title by remember { mutableStateOf("progress") }
@@ -57,6 +56,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         BackgroundCard {
                             AppNavHost(
+                                viewModel = viewModel,
                                 navController = navController,
                                 changeTitle = { title = it }
                             )

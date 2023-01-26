@@ -8,14 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.programmingprogress.model.entities.User
 import com.example.programmingprogress.util.checkValidEmail
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
 @Composable
-fun RegisterView() {
-    val authViewModel = viewModel(AuthViewModel::class.java)
-
+fun RegisterView(authViewModel: AuthViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }

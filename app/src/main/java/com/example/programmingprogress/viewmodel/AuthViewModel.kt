@@ -9,9 +9,7 @@ import com.example.programmingprogress.model.entities.User
 import com.example.programmingprogress.model.firebase.AuthDataSource
 import com.example.programmingprogress.util.AuthorizationType
 import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AuthViewModel() : ViewModel() {
     private val authDataSource = AuthDataSource
@@ -25,7 +23,6 @@ class AuthViewModel() : ViewModel() {
         get() = _typeAuthorization
 
     fun checkAuthorization() = viewModelScope.launch {
-        signOut()
         val result = async { authDataSource.getUserId() != null }.await()
         _typeAuthorization.value =
             if (result) AuthorizationType.AUTHORIZATION else AuthorizationType.NOT_AUTHORIZATION

@@ -14,15 +14,17 @@ import com.example.programmingprogress.ui.screens.history.ListHistoryView
 import com.example.programmingprogress.ui.screens.checkpoint.Checkpoint
 import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
 import com.example.programmingprogress.ui.screens.splash.SplashView
+import com.example.programmingprogress.viewmodel.AuthViewModel
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    changeTitle: (title: String) -> Unit
+    changeTitle: (title: String) -> Unit,
+    viewModel: AuthViewModel
 ) {
     NavHost(navController = navController, startDestination = Screen.Splash.route) {
         main(navController = navController, changeTitle = changeTitle)
-        authorization(navController = navController, changeTitle = changeTitle)
+        authorization(navController = navController, changeTitle = changeTitle, viewModel = viewModel)
         composable(route = Screen.Splash.route) {
             SplashView()
         }
@@ -31,7 +33,8 @@ fun AppNavHost(
 
 private fun NavGraphBuilder.authorization(
     navController: NavHostController,
-    changeTitle: (title: String) -> Unit
+    changeTitle: (title: String) -> Unit,
+    viewModel: AuthViewModel
 ) {
     navigation(
         startDestination = AuthorizationScreen.SignInScreen.route,
@@ -44,7 +47,7 @@ private fun NavGraphBuilder.authorization(
 
         composable(route = AuthorizationScreen.RegistrationScreen.route) {
             changeTitle("Регистрация")
-            RegisterView()
+            RegisterView(authViewModel = viewModel)
         }
     }
 }
