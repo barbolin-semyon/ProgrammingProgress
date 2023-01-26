@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.programmingprogress.model.entities.History
+import com.example.programmingprogress.ui.screens.authorization.RegisterView
+import com.example.programmingprogress.ui.screens.authorization.SignInView
 import com.example.programmingprogress.ui.screens.history.DetailHistoryScreen
 import com.example.programmingprogress.ui.screens.history.ListHistoryView
 import com.example.programmingprogress.ui.screens.checkpoint.Checkpoint
@@ -34,10 +36,12 @@ private fun NavGraphBuilder.authorization(
     ) {
         composable(route = AuthorizationScreen.SignInScreen.route) {
             changeTitle("Авторизация")
+            SignInView(navHostController = navController)
         }
 
         composable(route = AuthorizationScreen.RegistrationScreen.route) {
             changeTitle("Регистрация")
+            RegisterView(navHostController = navController)
         }
     }
 }
