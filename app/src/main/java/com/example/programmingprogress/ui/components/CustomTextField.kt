@@ -22,7 +22,7 @@ fun CustomTextField(
             focusedBorderColor = Green,
             focusedLabelColor = Green
         ),
-        onValueChange = { changeValue(it) },
+        onValueChange = { onValueChange(it) },
         isError = isError,
         label = {
             Text(text = textLabel)
