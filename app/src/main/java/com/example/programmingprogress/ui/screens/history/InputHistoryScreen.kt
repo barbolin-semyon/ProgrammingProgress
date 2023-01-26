@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.model.entities.History
-import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.Counter
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.util.parseToShortString
@@ -33,46 +32,44 @@ fun InputHistoryScreen(
         navHostController.popBackStack()
     }
 
-    BackgroundCard {
-        Column(modifier = Modifier.padding(start = 16.dp, top = 16.dp)) {
-            TextWithCaption(
-                caption = "Дата",
-                text = history.date.parseToShortString()
-            )
+    Column(modifier = Modifier.padding(start = 16.dp, top = 16.dp)) {
+        TextWithCaption(
+            caption = "Дата",
+            text = history.date.parseToShortString()
+        )
 
-            var counterValue by remember { mutableStateOf(0.0) }
-            if (isSetHours) {
-                Counter(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .height(100.dp),
-                    value = counterValue,
-                    step = 0.5,
-                    valueChange = { counterValue = it }
-                )
-            }
-
-            var tempDescription by remember { mutableStateOf("") }
-            TextField(
-                value = tempDescription,
-                onValueChange = { tempDescription = it },
+        var counterValue by remember { mutableStateOf(0.0) }
+        if (isSetHours) {
+            Counter(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(horizontal = 8.dp)
+                    .height(100.dp),
+                value = counterValue,
+                step = 0.5,
+                valueChange = { counterValue = it }
             )
+        }
 
-            Button(onClick = {
-                history.apply {
-                    if (isSetHours) {
-                        check = true
-                        hours = counterValue
-                    }
-                    description = tempDescription
+        var tempDescription by remember { mutableStateOf("") }
+        TextField(
+            value = tempDescription,
+            onValueChange = { tempDescription = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        )
+
+        Button(onClick = {
+            history.apply {
+                if (isSetHours) {
+                    check = true
+                    hours = counterValue
                 }
-                viewModel.updateHistory(history)
-            }) {
-                Text(text = "Сохранить")
+                description = tempDescription
             }
+            viewModel.updateHistory(history)
+        }) {
+            Text(text = "Сохранить")
         }
     }
 }

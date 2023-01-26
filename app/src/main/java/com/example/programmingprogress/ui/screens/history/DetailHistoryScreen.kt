@@ -18,7 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.R
 import com.example.programmingprogress.model.entities.History
-import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.CustomButtonFillSize
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.ui.navigation.HistoryScreen
@@ -43,12 +42,10 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History?)
             day = it
         }
     } else {
-        BackgroundCard {
-            if (day!!.check.not()) {
-                NoProgrammingScreen(navHostController, day!!)
-            } else {
-                Content(day!!)
-            }
+        if (day!!.check.not()) {
+            NoProgrammingScreen(navHostController, day!!)
+        } else {
+            Content(day!!)
         }
     }
 }
@@ -133,9 +130,11 @@ fun NoProgrammingScreen(navHostController: NavHostController, history: History) 
 
 @Composable
 private fun DescriptionText(text: String) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp), elevation = 8.dp) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), elevation = 8.dp
+    ) {
         Text(modifier = Modifier.padding(16.dp), text = text, fontSize = 18.sp)
     }
 }

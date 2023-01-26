@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.theme.*
 import com.example.programmingprogress.viewmodel.HistoryViewModel
 
@@ -32,44 +31,42 @@ fun Checkpoint(navHostController: NavHostController) {
         viewModel.getCountSuccessDays()
     })
 
-    BackgroundCard {
-        stateCheckpoint.value?.let {
-            val count = it.toInt() / 5
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Alpha)
-                    .padding(top = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                items(count) { index ->
-                    Item(
-                        number = (index + 1) * 5,
-                        backgroundColor = Green,
-                        textColor = White,
-                        colorSpacer = Green,
-                        isLast = (index + 1) == count
-                    )
-                }
+    stateCheckpoint.value?.let {
+        val count = it.toInt() / 5
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Alpha)
+                .padding(top = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            items(count) { index ->
+                Item(
+                    number = (index + 1) * 5,
+                    backgroundColor = Green,
+                    textColor = White,
+                    colorSpacer = Green,
+                    isLast = (index + 1) == count
+                )
+            }
 
-                item {
-                    Spacer(
-                        modifier = Modifier
-                            .width(10.dp)
-                            .height(100.dp)
-                            .background(brush = Brush.verticalGradient(listOf(Green, DarkGray)))
-                    )
-                }
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .width(10.dp)
+                        .height(100.dp)
+                        .background(brush = Brush.verticalGradient(listOf(Green, DarkGray)))
+                )
+            }
 
-                items(2) { index ->
-                    Item(
-                        number = (index + 2) * count * 5,
-                        backgroundColor = Gray,
-                        textColor = DarkGray,
-                        colorSpacer = Color.DarkGray,
-                        isLast = index == 1
-                    )
-                }
+            items(2) { index ->
+                Item(
+                    number = (index + 2) * count * 5,
+                    backgroundColor = Gray,
+                    textColor = DarkGray,
+                    colorSpacer = Color.DarkGray,
+                    isLast = index == 1
+                )
             }
         }
     }

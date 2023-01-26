@@ -19,28 +19,26 @@ fun ListHistoryView(navHostController: NavHostController) {
         viewModel.enableListenerHistory(currentDate)
     })
 
-    BackgroundCard {
-        history.value?.let {
-            CalendarView(
-                days = history.value!!,
-                onClick = {
-                    viewModel.disableListener()
-                    navHostController.currentBackStackEntry?.savedStateHandle?.set("history", it)
-                    navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
-                        popUpTo(HistoryScreen.ListHistoryScreen.route) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
+    history.value?.let {
+        CalendarView(
+            days = history.value!!,
+            onClick = {
+                viewModel.disableListener()
+                navHostController.currentBackStackEntry?.savedStateHandle?.set("history", it)
+                navHostController.navigate(HistoryScreen.DetailHistoryScreen.route) {
+                    popUpTo(HistoryScreen.ListHistoryScreen.route) {
+                        saveState = true
                     }
-                },
-                changeMonth = {
-                    viewModel.disableListener()
-                    currentDate.add(Calendar.MONTH, it)
-
-                    viewModel.enableListenerHistory(tempDate = currentDate.clone() as Calendar)
+                    launchSingleTop = true
+                    restoreState = true
                 }
-            )
-        }
+            },
+            changeMonth = {
+                viewModel.disableListener()
+                currentDate.add(Calendar.MONTH, it)
+
+                viewModel.enableListenerHistory(tempDate = currentDate.clone() as Calendar)
+            }
+        )
     }
 }

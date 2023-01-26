@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.programmingprogress.ui.components.BackgroundCard
 import com.example.programmingprogress.ui.components.Toolbar
 import com.example.programmingprogress.ui.navigation.AppBottomNavigation
 import com.example.programmingprogress.ui.navigation.AppNavHost
@@ -54,10 +55,12 @@ class MainActivity : ComponentActivity() {
                             .padding(padding)
                             .background(Green)
                     ) {
-                        AppNavHost(
-                            navController = navController,
-                            changeTitle = { title = it }
-                        )
+                        BackgroundCard {
+                            AppNavHost(
+                                navController = navController,
+                                changeTitle = { title = it }
+                            )
+                        }
                         ObserverAuthorizationState(viewModel, navHostController = navController)
                     }
                 }
