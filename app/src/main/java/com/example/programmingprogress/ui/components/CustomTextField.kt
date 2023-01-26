@@ -13,7 +13,7 @@ fun CustomTextField(
     textLabel: String,
     value: String,
     onValueChange: (value: String) -> Unit,
-    isError: Boolean
+    isError: Boolean = false
 ) {
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),

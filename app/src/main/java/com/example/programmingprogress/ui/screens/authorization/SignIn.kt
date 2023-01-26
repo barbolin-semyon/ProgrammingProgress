@@ -36,14 +36,11 @@ fun SignInView(navHostController: NavHostController) {
         CustomTextField(
             value = password,
             onValueChange = { password = it },
-            isError = password.length in 1..5,
-            textLabel = "Введите пароль " + if (password.length in 1..5)
-                "(Меньше 6 символов)"
-            else ""
+            textLabel = "Введите пароль "
         )
 
         Buttons(
-            enabledSignIn = password.length > 6 && email.checkValidEmail(),
+            enabledSignIn = email.checkValidEmail(),
             onclickSignIn = { authViewModel.signInWithEmail(email, password) },
             onclickRegister = { navHostController.navigate(AuthorizationScreen.RegistrationScreen.route) }
         )
