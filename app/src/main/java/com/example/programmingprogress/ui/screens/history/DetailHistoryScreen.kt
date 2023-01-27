@@ -53,7 +53,7 @@ fun DetailHistoryScreen(navHostController: NavHostController, history: History?)
 @Composable
 private fun Content(history: History) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround
     ) {
@@ -88,6 +88,7 @@ private fun Content(history: History) {
 @Composable
 fun NoProgrammingScreen(navHostController: NavHostController, history: History) {
     Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
