@@ -101,7 +101,13 @@ class HistoryViewModel : ViewModel() {
 
             historyDataSource.getQueryHistory(authDataSource.getUserId()!!, start, end).get()
                 .addOnSuccessListener {
-                    _isLoadTodayHistory.value = it.toObjects(History::class.java).getOrNull(0)
+                    var result = it.toObjects(History::class.java).getOrNull(0)
+
+                    if (result == null) {
+                        result = History(date = start)
+                    }
+
+                    _isLoadTodayHistory.value = result
                 }
         }
     }
