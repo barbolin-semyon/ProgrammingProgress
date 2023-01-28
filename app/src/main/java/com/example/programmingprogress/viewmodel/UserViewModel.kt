@@ -29,7 +29,14 @@ class UserViewModel : ViewModel() {
     val userInfo: LiveData<User>
         get() = _userInfo
 
-    fun updateUserBySetHistory(date: Date) = viewModelScope.launch {
+    fun updateUserBySetHistory(date: Date) {
+        getInformationUser()
+        _userInfo.observeForever {
+            if (it.id != "") updateUserValueOfDays(date)
+        }
+    }
+
+    private fun updateUserValueOfDays(date: Date) = viewModelScope.launch {
         userInfo.value!!.apply {
             async {
                 userDataSource.updateCountOfDaysSuccess(

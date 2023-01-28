@@ -18,6 +18,7 @@ import com.example.programmingprogress.ui.components.Counter
 import com.example.programmingprogress.ui.components.TextWithCaption
 import com.example.programmingprogress.util.parseToShortString
 import com.example.programmingprogress.viewmodel.HistoryViewModel
+import com.example.programmingprogress.viewmodel.UserViewModel
 
 @Composable
 fun InputHistoryScreen(
@@ -25,10 +26,16 @@ fun InputHistoryScreen(
     history: History,
     isSetHours: Boolean
 ) {
-    val viewModel: HistoryViewModel = viewModel()
+    val historyViewModel: HistoryViewModel = viewModel()
+    val userViewModel: UserViewModel = viewModel()
 
-    val isNavigateBack = viewModel.isNavigateBack.observeAsState()
+    val isNavigateBack = historyViewModel.isNavigateBack.observeAsState()
     if (isNavigateBack.value == true) {
+        userViewModel.updateUserBySetHistory(history.date)
+    }
+
+    val state = userViewModel.isRequestSuccess.observeAsState()
+    if (state.value == true) {
         navHostController.popBackStack()
     }
 
@@ -67,7 +74,7 @@ fun InputHistoryScreen(
                 }
                 description = tempDescription
             }
-            viewModel.updateHistory(history)
+            historyViewModel.updateHistory(history)
         }) {
             Text(text = "Сохранить")
         }
