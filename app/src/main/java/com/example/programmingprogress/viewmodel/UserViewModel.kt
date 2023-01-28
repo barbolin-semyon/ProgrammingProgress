@@ -76,5 +76,4 @@ class UserViewModel : ViewModel() {
             _isRequestError.value = "not authorization"
         }
     }
-
 }

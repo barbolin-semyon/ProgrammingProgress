@@ -1,6 +1,5 @@
 package com.example.programmingprogress.ui.screens.checkpoint
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,19 +19,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.programmingprogress.ui.theme.*
-import com.example.programmingprogress.viewmodel.HistoryViewModel
+import com.example.programmingprogress.viewmodel.UserViewModel
 
 @Composable
 fun Checkpoint(navHostController: NavHostController) {
-    val viewModel = viewModel(HistoryViewModel::class.java)
+    val viewModel = viewModel(UserViewModel::class.java)
 
-    val stateCheckpoint = viewModel.countSuccessDats.observeAsState()
+    val user = viewModel.userInfo.observeAsState()
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.getCountSuccessDays()
+        viewModel.getInformationUser()
     })
 
-    stateCheckpoint.value?.let {
-        val count = it.toInt() / 5
+    user.value?.let { user ->
+        val count = user.countOfDaysSuccess / 5
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -50,23 +49,35 @@ fun Checkpoint(navHostController: NavHostController) {
                 )
             }
 
-            item {
-                Spacer(
-                    modifier = Modifier
-                        .width(10.dp)
-                        .height(100.dp)
-                        .background(brush = Brush.verticalGradient(listOf(Green, DarkGray)))
-                )
-            }
+            if (count == 0) {
+                item {
+                    Item(
+                        number = user.countOfDaysSuccess,
+                        backgroundColor = Green,
+                        textColor = White,
+                        colorSpacer = Green,
+                        isLast = true
+                    )
+                }
+            } else {
+                item {
+                    Spacer(
+                        modifier = Modifier
+                            .width(10.dp)
+                            .height(100.dp)
+                            .background(brush = Brush.verticalGradient(listOf(Green, DarkGray)))
+                    )
+                }
 
-            items(2) { index ->
-                Item(
-                    number = (index + 2) * count * 5,
-                    backgroundColor = Gray,
-                    textColor = DarkGray,
-                    colorSpacer = Color.DarkGray,
-                    isLast = index == 1
-                )
+                items(2) { index ->
+                    Item(
+                        number = (index + 2) * count * 5,
+                        backgroundColor = Gray,
+                        textColor = DarkGray,
+                        colorSpacer = Color.DarkGray,
+                        isLast = index == 1
+                    )
+                }
             }
         }
     }
