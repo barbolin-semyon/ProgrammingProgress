@@ -11,5 +11,5 @@ data class User(
     val email: String = "",
     val countOfDaysSuccess: Int = 0,
     val countOfConsecutiveDaysSuccess: Int = 0,
-    val lastDateOfConsecutiveDays: Date = Date(),
+    val hours: Int = 0,
   ) : Parcelable
