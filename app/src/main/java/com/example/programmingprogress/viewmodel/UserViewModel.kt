@@ -29,40 +29,21 @@ class UserViewModel : ViewModel() {
     val userInfo: LiveData<User>
         get() = _userInfo
 
-    fun updateUserBySetHistory(date: Date) {
+    fun updateUserBySetHistory(hours: Double) {
         getInformationUser()
         _userInfo.observeForever {
-            if (it.id != "") updateUserValueOfDays(date)
+            if (it.id != "") updateUserValueOfDay(countHours = hours)
         }
     }
 
-    private fun updateUserValueOfDays(date: Date) = viewModelScope.launch {
+    private fun updateUserValueOfDay(countHours: Double) = viewModelScope.launch {
         userInfo.value!!.apply {
             async {
-                userDataSource.updateCountOfDaysSuccess(
+                userDataSource.updateCountOfDaysAndHourSuccess(
                     userId = id,
-                    countOfDaysSuccess + 1
+                    countOfDaysSuccess + 1,
+                    hours = hours + countHours
                 )
-            }.await()
-
-            val countDay =
-                lastDateOfConsecutiveDays.parseCalendar().getDayOfYear() - date.parseCalendar()
-                    .getDayOfYear()
-
-            async {
-                if (countDay == 1) {
-                    userDataSource.updateCountOfConsecutiveDays(
-                        userId = id,
-                        countOfConsecutiveDays = countOfConsecutiveDaysSuccess + 1,
-                        lastDate = date
-                    )
-                } else {
-                    userDataSource.updateCountOfConsecutiveDays(
-                        userId = id,
-                        countOfConsecutiveDays = 1,
-                        lastDate = date
-                    )
-                }
             }.await()
 
             _isRequestSuccess.value = true

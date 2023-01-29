@@ -31,7 +31,7 @@ fun InputHistoryScreen(
 
     val isNavigateBack = historyViewModel.isNavigateBack.observeAsState()
     if (isNavigateBack.value == true) {
-        userViewModel.updateUserBySetHistory(history.date)
+        userViewModel.updateUserBySetHistory(history.hours)
     }
 
     val state = userViewModel.isRequestSuccess.observeAsState()
