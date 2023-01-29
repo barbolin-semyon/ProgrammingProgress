@@ -13,21 +13,26 @@ object UserDataSource {
         return@withContext db.collection("users").document(userId).get()
     }
 
-    suspend fun updateCountOfDaysSuccess(userId: String, countOfDaysSuccess: Int) =
+    suspend fun updateCountOfDaysAndHourSuccess(
+        userId: String,
+        countOfDaysSuccess: Int,
+        hours: Double
+    ) =
         withContext(ioDispatcher) {
             return@withContext db.collection("users").document(userId)
-                .update("countOfDaysSuccess", countOfDaysSuccess)
+                .update(
+                    "countOfDaysSuccess", countOfDaysSuccess,
+                    "hours", hours
+                )
         }
 
     suspend fun updateCountOfConsecutiveDays(
         userId: String,
         countOfConsecutiveDays: Int,
-        lastDate: Date
     ) = withContext(ioDispatcher) {
         return@withContext db.collection("users").document(userId)
             .update(
-                "countOfConsecutiveDays", countOfConsecutiveDays,
-                "lastDateOfConsecutiveDays", lastDate
+                "countOfConsecutiveDaysSuccess", countOfConsecutiveDays,
             )
     }
 }
