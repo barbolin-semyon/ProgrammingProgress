@@ -29,9 +29,16 @@ fun InputHistoryScreen(
     val historyViewModel: HistoryViewModel = viewModel()
     val userViewModel: UserViewModel = viewModel()
 
+    var counterHours by remember { mutableStateOf(0.0) }
+
     val isNavigateBack = historyViewModel.isNavigateBack.observeAsState()
     if (isNavigateBack.value == true) {
-        userViewModel.updateUserBySetHistory(history.hours)
+        userViewModel.getInformationUser()
+    }
+
+    val userInfo = userViewModel.userInfo.observeAsState()
+    if (userInfo.value?.id != "") {
+        userViewModel.updateUserValueOfDay(counterHours)
     }
 
     val state = userViewModel.isRequestSuccess.observeAsState()
@@ -45,15 +52,14 @@ fun InputHistoryScreen(
             text = history.date.parseToShortString()
         )
 
-        var counterValue by remember { mutableStateOf(0.0) }
         if (isSetHours) {
             Counter(
                 modifier = Modifier
                     .padding(horizontal = 8.dp)
                     .height(100.dp),
-                value = counterValue,
+                value = counterHours,
                 step = 0.5,
-                valueChange = { counterValue = it }
+                valueChange = { counterHours = it }
             )
         }
 
@@ -70,7 +76,7 @@ fun InputHistoryScreen(
             history.apply {
                 if (isSetHours) {
                     check = true
-                    hours = counterValue
+                    hours = counterHours
                 }
                 description = tempDescription
             }

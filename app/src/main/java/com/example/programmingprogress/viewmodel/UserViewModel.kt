@@ -36,7 +36,7 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    private fun updateUserValueOfDay(countHours: Double) = viewModelScope.launch {
+    fun updateUserValueOfDay(countHours: Double) = viewModelScope.launch {
         userInfo.value!!.apply {
             async {
                 userDataSource.updateCountOfDaysAndHourSuccess(
