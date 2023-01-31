@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
 import java.util.*
+import kotlin.math.max
 
 class HistoryViewModel : ViewModel() {
     private val _history by lazy { MutableLiveData<List<History>>() }
@@ -27,9 +28,9 @@ class HistoryViewModel : ViewModel() {
     val isLoadTodayHistory: LiveData<History>
         get() = _isLoadTodayHistory
 
-    private val _countSuccessDays = MutableLiveData(0L)
-    val countSuccessDats: LiveData<Long>
-        get() = _countSuccessDays
+    private val _countConsecutiveDays = MutableLiveData(0)
+    val countConsecutiveDays: LiveData<Int>
+        get() = _countConsecutiveDays
 
     private val historyDataSource = HistoryDataSource
     private val authDataSource = AuthDataSource
@@ -61,6 +62,23 @@ class HistoryViewModel : ViewModel() {
                     }
                     _history.value = tempList
                 }
+    }
+
+    fun getCountConsecutiveDays() = viewModelScope.launch {
+        historyDataSource.getAllHistory(authDataSource.getUserId()!!).addOnSuccessListener {
+            var maxCount = 1
+            val histories = it.toObjects(History::class.java)
+            for (i in 1..histories.size) {
+                if (histories[i].date.parseCalendar()
+                        .getDate() - histories[i - 1].date.parseCalendar().getDate() == 1
+                ) {
+                    maxCount++
+                } else {
+                    maxCount = 1
+                }
+            }
+            _countConsecutiveDays.value = maxCount
+        }
     }
 
     fun disableListener() {
