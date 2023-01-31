@@ -31,11 +31,12 @@ fun Checkpoint(navHostController: NavHostController) {
         viewModel.getInformationUser()
     })
 
-    var currentCount by remember { mutableStateOf(0) }
     var currentLabel by remember { mutableStateOf("Категория не известна") }
 
     user.value?.let { user ->
-        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)) {
             Spinner(
                 items = listOf(
                     CheckpointCategory.HOURS,
@@ -45,16 +46,22 @@ fun Checkpoint(navHostController: NavHostController) {
                 hint = "Выберите тип",
                 onClick = { catecory ->
                     currentLabel = catecory.text
-                    currentCount = when (catecory) {
-                        CheckpointCategory.ALL_DAY -> user.countOfDaysSuccess
-                        CheckpointCategory.HOURS -> user.hours
-                        CheckpointCategory.CONSECUTIVE_DAYS -> user.countOfConsecutiveDaysSuccess
-                    }
                 }
             )
 
             Text(text = currentLabel)
-            CheckpointViewForHoursOrDay(currentCount)
+
+            when (currentLabel) {
+                CheckpointCategory.ALL_DAY.text -> {
+                    CheckpointViewForHoursOrDay(user.countOfDaysSuccess)
+                }
+                CheckpointCategory.HOURS.text -> {
+                    CheckpointViewForHoursOrDay(user.hours)
+                }
+                CheckpointCategory.CONSECUTIVE_DAYS.text -> {
+                    CheckpointForConsecutiveDays(user.countOfConsecutiveDaysSuccess)
+                }
+            }
         }
     }
 }
