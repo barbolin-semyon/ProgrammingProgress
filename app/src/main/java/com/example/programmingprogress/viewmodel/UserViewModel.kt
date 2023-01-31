@@ -29,6 +29,10 @@ class UserViewModel : ViewModel() {
     val userInfo: LiveData<User>
         get() = _userInfo
 
+    private val _users by lazy { MutableLiveData<List<User>>() }
+    val users: LiveData<List<User>>
+        get() = _users
+
     fun updateUserValueOfDay(countHours: Double) = viewModelScope.launch {
         userInfo.value!!.apply {
             async {
@@ -55,6 +59,14 @@ class UserViewModel : ViewModel() {
                 }
         } else {
             _isRequestError.value = "not authorization"
+        }
+    }
+
+    fun getUsersWithSortedByScore() = viewModelScope.launch {
+        userDataSource.getUsers().addOnSuccessListener { result ->
+            val tempList = result.toObjects(User::class.java)
+            tempList.sortedBy { it.countOfDaysSuccess + it.countOfConsecutiveDaysSuccess * 3 + it.hours }
+            _users.value = tempList
         }
     }
 
