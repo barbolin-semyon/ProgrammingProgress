@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TextWithCaption(caption: String, text: String, modifier: Modifier = Modifier) {
-    Row(modifier = modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
+    Row(horizontalArrangement = Arrangement.Start) {
         Text(text = caption, style = MaterialTheme.typography.h5)
         Text(
             text = text,
