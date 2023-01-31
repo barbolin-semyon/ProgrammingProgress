@@ -3,6 +3,8 @@ package com.example.programmingprogress.model.firebase
 import com.example.programmingprogress.model.entities.History
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.sql.Timestamp
 
 object HistoryDataSource {
@@ -28,6 +30,13 @@ object HistoryDataSource {
             .startAt(startDate)
             .endBefore(endDate)
     }
+
+    suspend fun getAllHistory(userId: String) = withContext(Dispatchers.IO) {
+        return@withContext db.collection("users")
+            .document(userId).collection("history")
+            .orderBy("date").get()
+    }
+
     fun getQueryCountSuccessHistory(userId: String,): Task<AggregateQuerySnapshot> {
         return db.collection("users")
             .document(userId)
