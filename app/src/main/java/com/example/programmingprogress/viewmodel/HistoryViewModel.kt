@@ -67,14 +67,16 @@ class HistoryViewModel : ViewModel() {
     fun getCountConsecutiveDays() = viewModelScope.launch {
         historyDataSource.getAllHistory(authDataSource.getUserId()!!).addOnSuccessListener {
             var maxCount = 1
+            var count = 1
             val histories = it.toObjects(History::class.java)
-            for (i in 1..histories.size) {
+            for (i in 1 .. histories.lastIndex) {
                 if (histories[i].date.parseCalendar()
                         .getDate() - histories[i - 1].date.parseCalendar().getDate() == 1
                 ) {
-                    maxCount++
+                    count++
                 } else {
-                    maxCount = 1
+                    maxCount = max(maxCount, count)
+                    count = 1
                 }
             }
             _countConsecutiveDays.value = maxCount
