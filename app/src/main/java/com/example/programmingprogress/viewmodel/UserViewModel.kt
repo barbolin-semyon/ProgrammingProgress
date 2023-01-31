@@ -64,4 +64,11 @@ class UserViewModel : ViewModel() {
             _isRequestError.value = "not authorization"
         }
     }
+
+    fun updateCountConsecutiveDays(newCount: Int) = viewModelScope.launch {
+        userDataSource.updateCountOfConsecutiveDays(authDataSource.getUserId()!!, newCount)
+            .addOnSuccessListener {
+                _isRequestSuccess.value = true
+            }
+    }
 }
