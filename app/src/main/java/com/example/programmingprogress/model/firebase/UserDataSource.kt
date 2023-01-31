@@ -13,6 +13,10 @@ object UserDataSource {
         return@withContext db.collection("users").document(userId).get()
     }
 
+    suspend fun getUsers() = withContext(ioDispatcher) {
+        return@withContext db.collection("users").get()
+    }
+
     suspend fun updateCountOfDaysAndHourSuccess(
         userId: String,
         countOfDaysSuccess: Int,
