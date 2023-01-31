@@ -13,6 +13,7 @@ import com.example.programmingprogress.ui.screens.history.DetailHistoryScreen
 import com.example.programmingprogress.ui.screens.history.ListHistoryView
 import com.example.programmingprogress.ui.screens.checkpoint.Checkpoint
 import com.example.programmingprogress.ui.screens.history.InputHistoryScreen
+import com.example.programmingprogress.ui.screens.rating.RatingView
 import com.example.programmingprogress.ui.screens.splash.SplashView
 import com.example.programmingprogress.viewmodel.AuthViewModel
 
@@ -60,7 +61,8 @@ private fun NavGraphBuilder.main(
         history(navController = navController, changeTitle = changeTitle)
 
         composable(route = MainScreen.Rating.route) {
-
+            changeTitle("Рейтинг")
+            RatingView()
         }
 
         composable(route = MainScreen.Checkpoints.route) {
