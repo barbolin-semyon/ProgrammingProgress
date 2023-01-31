@@ -55,7 +55,7 @@ fun CheckpointViewForHoursOrDay(count: Int) {
 
             items(2) { index ->
                 Item(
-                    number = (index + 2) * count * 5,
+                    number = (index + cutCount + 1) * 5,
                     backgroundColor = Gray,
                     textColor = DarkGray,
                     colorSpacer = Color.DarkGray,
