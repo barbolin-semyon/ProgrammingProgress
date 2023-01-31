@@ -32,9 +32,10 @@ fun Checkpoint(navHostController: NavHostController) {
     })
 
     var currentCount by remember { mutableStateOf(0) }
+    var currentLabel by remember { mutableStateOf("Категория не известна") }
 
     user.value?.let { user ->
-        Column {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             Spinner(
                 items = listOf(
                     CheckpointCategory.HOURS,
@@ -42,8 +43,8 @@ fun Checkpoint(navHostController: NavHostController) {
                     CheckpointCategory.ALL_DAY,
                 ),
                 hint = "Выберите тип",
-                padding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
                 onClick = { catecory ->
+                    currentLabel = catecory.text
                     currentCount = when (catecory) {
                         CheckpointCategory.ALL_DAY -> user.countOfDaysSuccess
                         CheckpointCategory.HOURS -> user.hours
@@ -52,6 +53,7 @@ fun Checkpoint(navHostController: NavHostController) {
                 }
             )
 
+            Text(text = currentLabel)
             CheckpointViewForHoursOrDay(currentCount)
         }
     }
