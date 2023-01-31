@@ -24,9 +24,3 @@ fun BackgroundCard(
         content()
     }
 }
-private fun getColorForHistory(history: History): Color {
-    if (history.check) return Green
-    else if (history.description.isNotEmpty()) return Orange
-    return Red
-
-}
