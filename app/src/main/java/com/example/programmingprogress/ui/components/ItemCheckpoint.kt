@@ -27,9 +27,11 @@ fun Item(
     isLast: Boolean
 ) {
     val color = remember { Animatable(initialValue = 0f) }
+    val duration = if (number >= 25) 100 * number else 200 * number
+
 
     LaunchedEffect(key1 = Unit, block = {
-        color.animateTo(targetValue = 100.dp.value, animationSpec = tween(200 * number))
+        color.animateTo(targetValue = 100.dp.value, animationSpec = tween(duration))
     })
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
