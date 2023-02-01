@@ -92,12 +92,12 @@ class HistoryViewModel : ViewModel() {
 
         var countDayBeforeCurrentMonth = currentDate.getDayOfWeek() - 1
         if (countDayBeforeCurrentMonth == 0) countDayBeforeCurrentMonth = 7
-        currentDate.add(Calendar.DATE, 1 - countDayBeforeCurrentMonth)
 
         val tempDays = mutableListOf<History>()
         val countDayInMonth =
             currentDate.getActualMaximum(Calendar.DAY_OF_MONTH) + countDayBeforeCurrentMonth - 1
 
+        currentDate.add(Calendar.DATE, 1 - countDayBeforeCurrentMonth)
         repeat(countDayInMonth) {
             tempDays.add(History(currentDate.time))
             currentDate.add(Calendar.DATE, 1)
