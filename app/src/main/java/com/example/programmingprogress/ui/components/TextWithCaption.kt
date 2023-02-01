@@ -19,7 +19,7 @@ fun TextWithCaption(caption: String, text: String, modifier: Modifier = Modifier
             text = text,
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = modifier.padding(start = 8.dp)
         )
     }
 }

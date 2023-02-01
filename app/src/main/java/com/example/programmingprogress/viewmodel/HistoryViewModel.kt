@@ -48,7 +48,7 @@ class HistoryViewModel : ViewModel() {
 
         listener =
             historyDataSource.getQueryHistory(authDataSource.getUserId()!!, start, end)
-                .addSnapshotListener { value, error ->
+                .addSnapshotListener { value, _ ->
                     value?.toObjects(History::class.java)?.forEach {
                         val date = it.date.parseCalendar()
                         val razn = if (tempDate.getYear() > date.getYear()) {
