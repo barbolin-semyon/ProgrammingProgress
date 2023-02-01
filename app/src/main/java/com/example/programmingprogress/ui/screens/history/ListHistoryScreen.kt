@@ -16,7 +16,7 @@ fun ListHistoryView(navHostController: NavHostController) {
     val currentDate by remember { mutableStateOf(Calendar.getInstance()) }
 
     LaunchedEffect(key1 = Unit, block = {
-        viewModel.enableListenerHistory(currentDate)
+        viewModel.enableListenerHistory(currentDate.clone() as Calendar)
     })
 
     history.value?.let {
