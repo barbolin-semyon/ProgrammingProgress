@@ -18,6 +18,7 @@ import com.example.programmingprogress.model.entities.History
 import com.example.programmingprogress.ui.theme.*
 import com.example.programmingprogress.util.getDate
 import com.example.programmingprogress.util.parseCalendar
+import java.util.*
 
 @Composable
 fun CalendarItem(
@@ -43,14 +44,17 @@ fun CalendarItem(
                 else if (day.description.isNotEmpty()) Orange
                 else Red
 
-            Canvas(
-                modifier = Modifier
-                    .size(12.dp)
-                    .padding(vertical = 4.dp),
-                onDraw = {
-                    drawCircle(color, this.size.height)
-                }
-            )
+            if (day.date.time < Calendar.getInstance().time.time) {
+                Canvas(
+                    modifier = Modifier
+                        .size(12.dp)
+                        .padding(vertical = 4.dp),
+                    onDraw = {
+                        drawCircle(color, this.size.height)
+                    }
+                )
+            }
+
         }
     }
 
