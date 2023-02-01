@@ -77,9 +77,10 @@ fun CheckpointForConsecutiveDays(oldCount: Int) {
 @Composable
 private fun ItemDay(color: Color, index: Int) {
     val size = remember { Animatable(initialValue = 0f) }
+    val duration = if (index > 20) 2000 else index * 200
 
     LaunchedEffect(key1 = Unit, block = {
-        size.animateTo(90.dp.value, animationSpec = tween(index  * 200))
+        size.animateTo(90.dp.value, animationSpec = tween(duration))
     })
 
     Card(

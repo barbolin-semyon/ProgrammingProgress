@@ -27,7 +27,7 @@ fun Item(
     isLast: Boolean
 ) {
     val color = remember { Animatable(initialValue = 0f) }
-    val duration = if (number >= 25) 100 * number else 200 * number
+    val duration = if (number >= 40) 3000 else 200 * number
 
 
     LaunchedEffect(key1 = Unit, block = {
