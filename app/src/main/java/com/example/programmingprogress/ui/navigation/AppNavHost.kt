@@ -66,7 +66,7 @@ private fun NavGraphBuilder.main(
         }
 
         composable(route = MainScreen.Checkpoints.route) {
-            changeTitle("Достижеия")
+            changeTitle("Достижения")
             Checkpoint(navController)
         }
     }
