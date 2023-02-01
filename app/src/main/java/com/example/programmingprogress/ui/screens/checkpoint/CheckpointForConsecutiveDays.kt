@@ -1,5 +1,7 @@
 package com.example.programmingprogress.ui.screens.checkpoint
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
@@ -11,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,11 +45,11 @@ fun CheckpointForConsecutiveDays(oldCount: Int) {
                 cells = GridCells.Adaptive(90.dp),
                 content = {
                     items(oldCount) {
-                        ItemDay(color = Orange)
+                        ItemDay(color = Orange, it)
                     }
 
                     items(razn) {
-                        ItemDay(color = Green)
+                        ItemDay(color = Green, it + oldCount)
                     }
                 })
 
@@ -72,10 +75,16 @@ fun CheckpointForConsecutiveDays(oldCount: Int) {
 }
 
 @Composable
-private fun ItemDay(color: Color) {
+private fun ItemDay(color: Color, index: Int) {
+    val size = remember { Animatable(initialValue = 0f) }
+
+    LaunchedEffect(key1 = Unit, block = {
+        size.animateTo(90.dp.value, animationSpec = tween(index  * 200))
+    })
+
     Card(
         modifier = Modifier
-            .size(90.dp)
+            .size(size.value.dp)
             .padding(8.dp),
         backgroundColor = color
     ) {}
