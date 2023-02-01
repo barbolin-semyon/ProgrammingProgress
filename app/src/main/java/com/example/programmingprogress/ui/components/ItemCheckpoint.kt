@@ -28,7 +28,7 @@ fun Item(
 ) {
     val color = remember { Animatable(initialValue = 0f) }
     val duration = if (number >= 40) 3000 else 200 * number
-
+    val fontSize = if(number > 100) 48.sp else 64.sp
 
     LaunchedEffect(key1 = Unit, block = {
         color.animateTo(targetValue = 100.dp.value, animationSpec = tween(duration))
@@ -47,7 +47,7 @@ fun Item(
                     text = "$number",
                     color = textColor,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 64.sp
+                    fontSize = fontSize
                 )
             }
         }
